@@ -75,23 +75,23 @@
             this.menuPanel.Controls.Add(this.label3);
             this.menuPanel.Controls.Add(this.label2);
             this.menuPanel.Controls.Add(this.label1);
-            this.menuPanel.Location = new System.Drawing.Point(0, 0);
+            this.menuPanel.Location = new System.Drawing.Point(1, 1);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(800, 451);
             this.menuPanel.TabIndex = 3;
             // 
             // panelGame
             // 
-            this.panelGame.Controls.Add(this.menuPanel);
             this.panelGame.Controls.Add(this.Indietro);
             this.panelGame.Location = new System.Drawing.Point(1, 1);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(800, 451);
             this.panelGame.TabIndex = 3;
+            this.panelGame.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
             // 
             // Indietro
             // 
-            this.Indietro.Location = new System.Drawing.Point(362, 218);
+            this.Indietro.Location = new System.Drawing.Point(27, 405);
             this.Indietro.Name = "Indietro";
             this.Indietro.Size = new System.Drawing.Size(75, 23);
             this.Indietro.TabIndex = 0;
@@ -105,6 +105,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panelGame);
+            this.Controls.Add(this.menuPanel);
             this.Name = "Form1";
             this.Text = "Form1";
             this.menuPanel.ResumeLayout(false);
