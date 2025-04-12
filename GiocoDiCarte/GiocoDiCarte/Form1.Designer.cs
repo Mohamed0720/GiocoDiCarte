@@ -93,9 +93,9 @@
             // 
             this.Indietro.Location = new System.Drawing.Point(27, 405);
             this.Indietro.Name = "Indietro";
-            this.Indietro.Size = new System.Drawing.Size(75, 23);
+            this.Indietro.Size = new System.Drawing.Size(95, 23);
             this.Indietro.TabIndex = 0;
-            this.Indietro.Text = "Indietro";
+            this.Indietro.Text = "Torna al Menu";
             this.Indietro.UseVisualStyleBackColor = true;
             this.Indietro.Click += new System.EventHandler(this.Indietro_Click);
             // 
