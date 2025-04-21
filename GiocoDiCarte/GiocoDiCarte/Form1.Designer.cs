@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tastoGioca = new System.Windows.Forms.Label();
+            this.tastoEsci = new System.Windows.Forms.Label();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.panelGame = new System.Windows.Forms.Panel();
             this.Indietro = new System.Windows.Forms.Button();
@@ -48,32 +48,36 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Gioco di Carte";
             // 
-            // label2
+            // tastoGioca
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.label2.Location = new System.Drawing.Point(362, 227);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(85, 31);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Gioca";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.tastoGioca.AutoSize = true;
+            this.tastoGioca.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.tastoGioca.Location = new System.Drawing.Point(362, 227);
+            this.tastoGioca.Name = "tastoGioca";
+            this.tastoGioca.Size = new System.Drawing.Size(85, 31);
+            this.tastoGioca.TabIndex = 1;
+            this.tastoGioca.Text = "Gioca";
+            this.tastoGioca.Click += new System.EventHandler(this.tastoGioca_Click);
             // 
-            // label3
+            // tastoEsci
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.label3.Location = new System.Drawing.Point(371, 288);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 31);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Esci";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.tastoEsci.AutoSize = true;
+            this.tastoEsci.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.tastoEsci.Location = new System.Drawing.Point(371, 288);
+            this.tastoEsci.Name = "tastoEsci";
+            this.tastoEsci.Size = new System.Drawing.Size(66, 31);
+            this.tastoEsci.TabIndex = 2;
+            this.tastoEsci.Text = "Esci";
+            this.tastoEsci.Click += new System.EventHandler(this.tastoEsci_Click);
             // 
             // menuPanel
             // 
-            this.menuPanel.Controls.Add(this.label3);
-            this.menuPanel.Controls.Add(this.label2);
+            this.menuPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.menuPanel.AutoSize = true;
+            this.menuPanel.Controls.Add(this.tastoEsci);
+            this.menuPanel.Controls.Add(this.tastoGioca);
             this.menuPanel.Controls.Add(this.label1);
             this.menuPanel.Location = new System.Drawing.Point(1, 1);
             this.menuPanel.Name = "menuPanel";
@@ -88,6 +92,8 @@
             this.panelGame.Size = new System.Drawing.Size(800, 451);
             this.panelGame.TabIndex = 3;
             this.panelGame.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
+            this.panelGame.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
+            this.panelGame.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseMove);
             // 
             // Indietro
             // 
@@ -106,20 +112,23 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panelGame);
             this.Controls.Add(this.menuPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.menuPanel.ResumeLayout(false);
             this.menuPanel.PerformLayout();
             this.panelGame.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label tastoGioca;
+        private System.Windows.Forms.Label tastoEsci;
         private System.Windows.Forms.Panel menuPanel;
         private System.Windows.Forms.Panel panelGame;
         private System.Windows.Forms.Button Indietro;
