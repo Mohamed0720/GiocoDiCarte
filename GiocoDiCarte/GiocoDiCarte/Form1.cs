@@ -19,7 +19,8 @@ namespace GiocoDiCarte
         {
             public Rectangle rect { get; set; }
             public bool girato { get; set; }
-            public Bitmap colore { get; set; }
+            public Bitmap sprite { get; set; }
+            public char colore { get; set; }
 
             public Carta(Rectangle rect)
             {
@@ -36,12 +37,18 @@ namespace GiocoDiCarte
         private Bitmap cartaBlu = new Bitmap("../../Sprite/cartaBlu.png");
         private Bitmap cartaVerde = new Bitmap("../../Sprite/cartaVerde.png");
         private List<Carta> carte = new List<Carta>();
+        private bool primaCarta = false;
+        private Carta cartaGirata;
+        private int condVittoria = 0;
 
 
         public Form1()                                                              
         {                                                                           
             InitializeComponent();                                                  
-            menuPanel.BringToFront();                                               
+            menuPanel.Dock = DockStyle.Fill;
+            gamePanel.Dock = DockStyle.Fill;
+            victoryPanel.Dock = DockStyle.Fill;
+            menuPanel.BringToFront();
         }
 
 
@@ -49,13 +56,14 @@ namespace GiocoDiCarte
         private void tastoGioca_Click(object sender, EventArgs e)
         {
             menuPanel.Hide();
-            panelGame.Show();
+            victoryPanel.Hide();
+            gamePanel.Show();
             inGame = true;
 
 
             //Creazione delle sprite delle carte//-----------------------------------//
-            float width = panelGame.Width / 2;
-            float height = panelGame.Height / 2;
+            float width = gamePanel.Width / 2;
+            float height = gamePanel.Height / 2;
             int padding = 20;
 
             for (int i = 0; i < 2; i++)
@@ -77,36 +85,34 @@ namespace GiocoDiCarte
             {
                 do
                 {
-                    cartaCasuale = oggettoRand.Next(0, 9);
+                    cartaCasuale = oggettoRand.Next(1, 9);
 
-                    if (esclusi.Contains(cartaCasuale))
-                    {
-                        Console.WriteLine("C'è già");
-                    } else
-                    {
-                        if (cartaCasuale == 1 || cartaCasuale == 2)
-                        {
-                            carte[i].colore = cartaArancio;
-                        }
-                        else if (cartaCasuale == 3 || cartaCasuale == 4)
-                        {
-                            carte[i].colore = cartaRosso;
-                        }
-                        else if (cartaCasuale == 5 || cartaCasuale == 6)
-                        {
-                            carte[i].colore = cartaBlu;
-                        }
-                        else if (cartaCasuale == 7 || cartaCasuale == 8)
-                        {
-                            carte[i].colore = cartaVerde;
-                        }
-                    }
-                } while (esclusi.Contains(cartaCasuale));
-                 
+                } while(esclusi.Contains(cartaCasuale));
+
+                if (cartaCasuale == 1 || cartaCasuale == 2)
+                {
+                    carte[i].sprite = (Bitmap)cartaArancio.Clone();
+                    carte[i].colore = 'a';
+                }
+                else if (cartaCasuale == 3 || cartaCasuale == 4)
+                {
+                    carte[i].sprite = (Bitmap)cartaRosso.Clone();
+                    carte[i].colore = 'r';
+                }
+                else if (cartaCasuale == 5 || cartaCasuale == 6)
+                {
+                    carte[i].sprite = (Bitmap)cartaBlu.Clone();
+                    carte[i].colore = 'b';
+                }
+                else if (cartaCasuale == 7 || cartaCasuale == 8)
+                {
+                    carte[i].sprite = (Bitmap)cartaVerde.Clone();
+                    carte[i].colore = 'v';
+                }
+
                 esclusi.Add(cartaCasuale);
             }
-
-            Invalidate();
+            
         }
 
         //Tasto Esci//---------------------------------------------------------------//
@@ -118,7 +124,7 @@ namespace GiocoDiCarte
         //Tasto Torna al Menu Principale//-------------------------------------------//
         private void Indietro_Click(object sender, EventArgs e)
         {
-            panelGame.Hide();
+            gamePanel.Hide();
             menuPanel.Show();
             inGame = false;
 
@@ -134,7 +140,7 @@ namespace GiocoDiCarte
                 {
                     if (carte[i].girato)
                     {
-                        e.Graphics.DrawImage(carte[i].colore, carte[i].rect);
+                        e.Graphics.DrawImage(carte[i].sprite, carte[i].rect);
                     }
                     else
                     {
@@ -162,7 +168,7 @@ namespace GiocoDiCarte
         }
 
         //Quando si preme col mouse su una carta//-----------------------------------//
-        private void panelGame_MouseClick(object sender, MouseEventArgs e)
+        private async void panelGame_MouseClick(object sender, MouseEventArgs e)
         {
             if (inGame)
             {
@@ -170,11 +176,52 @@ namespace GiocoDiCarte
                 {
                     if (carte[i].rect.Contains(e.Location))
                     {
-                        carte[i].girato = true;
-                        Invalidate();
+                        //Quando si preme su una carta il programma controlla se è
+                        //la prima o la seconda carta che si sceglie
+                        if (primaCarta) 
+                        {
+                            carte[i].girato = true;
+                            gamePanel.Invalidate();
+
+                            await Task.Delay(500);
+
+                            //Se le carte sono di colore diverso le rigira
+                            if (carte[i].colore != cartaGirata.colore)
+                            {
+                                carte[i].girato = false;
+                                cartaGirata.girato = false;
+                                gamePanel.Invalidate();
+                            }
+                            else
+                            {
+                                condVittoria += 1;
+                                if(condVittoria >= 4)
+                                {
+                                    gamePanel.Hide();
+                                    victoryPanel.Show();
+                                    victoryPanel.BringToFront();
+                                    this.Refresh();
+                                }
+                            }
+
+                                primaCarta = false;
+                        }
+                        else
+                        {
+                            carte[i].girato = true;
+                            primaCarta = true;
+                            cartaGirata = carte[i];
+                            gamePanel.Invalidate();
+                        }
                     }
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            menuPanel.Show();
+            victoryPanel.Hide();
         }
     }
 

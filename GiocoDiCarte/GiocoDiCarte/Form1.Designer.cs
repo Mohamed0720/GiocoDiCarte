@@ -32,10 +32,14 @@
             this.tastoGioca = new System.Windows.Forms.Label();
             this.tastoEsci = new System.Windows.Forms.Label();
             this.menuPanel = new System.Windows.Forms.Panel();
-            this.panelGame = new System.Windows.Forms.Panel();
+            this.victoryPanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.titoloVittoria = new System.Windows.Forms.Label();
+            this.gamePanel = new System.Windows.Forms.Panel();
             this.Indietro = new System.Windows.Forms.Button();
             this.menuPanel.SuspendLayout();
-            this.panelGame.SuspendLayout();
+            this.victoryPanel.SuspendLayout();
+            this.gamePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -72,28 +76,56 @@
             // 
             // menuPanel
             // 
-            this.menuPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.menuPanel.AutoSize = true;
             this.menuPanel.Controls.Add(this.tastoEsci);
             this.menuPanel.Controls.Add(this.tastoGioca);
             this.menuPanel.Controls.Add(this.label1);
-            this.menuPanel.Location = new System.Drawing.Point(1, 1);
+            this.menuPanel.Location = new System.Drawing.Point(282, 5);
             this.menuPanel.Name = "menuPanel";
-            this.menuPanel.Size = new System.Drawing.Size(800, 451);
+            this.menuPanel.Size = new System.Drawing.Size(800, 450);
             this.menuPanel.TabIndex = 3;
+            // 
+            // victoryPanel
+            // 
+            this.victoryPanel.Controls.Add(this.button1);
+            this.victoryPanel.Controls.Add(this.titoloVittoria);
+            this.victoryPanel.Location = new System.Drawing.Point(67, 73);
+            this.victoryPanel.Name = "victoryPanel";
+            this.victoryPanel.Size = new System.Drawing.Size(800, 450);
+            this.victoryPanel.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.LimeGreen;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(194, 269);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(382, 50);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Torna Al Menu Principale";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // titoloVittoria
+            // 
+            this.titoloVittoria.AutoSize = true;
+            this.titoloVittoria.Font = new System.Drawing.Font("SansSerif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.titoloVittoria.Location = new System.Drawing.Point(114, 91);
+            this.titoloVittoria.Name = "titoloVittoria";
+            this.titoloVittoria.Size = new System.Drawing.Size(558, 56);
+            this.titoloVittoria.TabIndex = 0;
+            this.titoloVittoria.Text = "Hai Completato Il Livello!";
             // 
             // panelGame
             // 
-            this.panelGame.Controls.Add(this.Indietro);
-            this.panelGame.Location = new System.Drawing.Point(1, 1);
-            this.panelGame.Name = "panelGame";
-            this.panelGame.Size = new System.Drawing.Size(800, 451);
-            this.panelGame.TabIndex = 3;
-            this.panelGame.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
-            this.panelGame.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
-            this.panelGame.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseMove);
+            this.gamePanel.Controls.Add(this.Indietro);
+            this.gamePanel.Location = new System.Drawing.Point(154, 27);
+            this.gamePanel.Name = "panelGame";
+            this.gamePanel.Size = new System.Drawing.Size(800, 450);
+            this.gamePanel.TabIndex = 3;
+            this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
+            this.gamePanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
+            this.gamePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseMove);
             // 
             // Indietro
             // 
@@ -110,15 +142,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.panelGame);
             this.Controls.Add(this.menuPanel);
+            this.Controls.Add(this.gamePanel);
+            this.Controls.Add(this.victoryPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.menuPanel.ResumeLayout(false);
             this.menuPanel.PerformLayout();
-            this.panelGame.ResumeLayout(false);
+            this.victoryPanel.ResumeLayout(false);
+            this.victoryPanel.PerformLayout();
+            this.gamePanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,8 +165,11 @@
         private System.Windows.Forms.Label tastoGioca;
         private System.Windows.Forms.Label tastoEsci;
         private System.Windows.Forms.Panel menuPanel;
-        private System.Windows.Forms.Panel panelGame;
+        private System.Windows.Forms.Panel gamePanel;
         private System.Windows.Forms.Button Indietro;
+        private System.Windows.Forms.Panel victoryPanel;
+        private System.Windows.Forms.Label titoloVittoria;
+        private System.Windows.Forms.Button button1;
     }
 }
 
