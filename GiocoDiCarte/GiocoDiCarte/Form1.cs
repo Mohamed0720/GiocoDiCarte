@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,7 +21,7 @@ namespace GiocoDiCarte
             public Rectangle rect { get; set; }
             public bool girato { get; set; }
             public Bitmap sprite { get; set; }
-            public char colore { get; set; }
+            public string colore { get; set; }
 
             public Carta(Rectangle rect)
             {
@@ -31,36 +32,44 @@ namespace GiocoDiCarte
 
         //Variabili generali//-------------------------------------------------------//
         private bool inGame = false;
-        private Bitmap retroCarta = new Bitmap("../../Sprite/retroCarta.png");
-        private Bitmap cartaArancio = new Bitmap("../../Sprite/cartaArancio.png");
-        private Bitmap cartaRosso = new Bitmap("../../Sprite/cartaRosso.png");
-        private Bitmap cartaBlu = new Bitmap("../../Sprite/cartaBlu.png");
-        private Bitmap cartaVerde = new Bitmap("../../Sprite/cartaVerde.png");
+
+        private Bitmap retroCarta = new Bitmap("Sprite/retroCarta.png");
+        private Bitmap cartaArancio = new Bitmap("Sprite/cartaArancio.png");
+        private Bitmap cartaRosso = new Bitmap("Sprite/cartaRosso.png");
+        private Bitmap cartaBlu = new Bitmap("Sprite/cartaBlu.png");
+        private Bitmap cartaVerde = new Bitmap("Sprite/cartaVerde.png");
+        private Bitmap cartaGiallo = new Bitmap("Sprite/cartaGiallo.png");
+        private Bitmap cartaRosa = new Bitmap("Sprite/cartaRosa.png");
+        private Bitmap cartaTurchese = new Bitmap("Sprite/cartaTurchese.png");
+        private Bitmap cartaViola = new Bitmap("Sprite/cartaViola.png");
+        private Bitmap cartaFuoco = new Bitmap("Sprite/cartaFuoco.png");
+        private Bitmap cartaAcqua = new Bitmap("Sprite/cartaAcqua.png");
+        private Bitmap cartaFoglia = new Bitmap("Sprite/cartaFoglia.png");
+        private Bitmap cartaPietra = new Bitmap("Sprite/cartaPietra.png");
+        private Bitmap cartaSole = new Bitmap("Sprite/cartaSole.png");
+
+        List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Rosa", "Turchese", "Viola", "Fuoco", "Acqua", "Foglia", "Pietra", "Sole" };
+
         private List<Carta> carte = new List<Carta>();
         private bool primaCarta = false;
         private Carta cartaGirata;
         private int condVittoria = 0;
+        private int livelliSbloccati;
 
-
+        //Funzione chiamata all'avvio del programma//--------------------------------//
         public Form1()                                                              
         {                                                                           
             InitializeComponent();                                                  
             menuPanel.Dock = DockStyle.Fill;
+            levelPanel.Dock = DockStyle.Fill;
             gamePanel.Dock = DockStyle.Fill;
             victoryPanel.Dock = DockStyle.Fill;
             menuPanel.BringToFront();
         }
 
-
-        //tasto Gioca//--------------------------------------------------------------//
-        private void tastoGioca_Click(object sender, EventArgs e)
+        //Funzione di generazione//--------------------------------------------------//
+        private void generaCarte(int livello)
         {
-            menuPanel.Hide();
-            victoryPanel.Hide();
-            gamePanel.Show();
-            inGame = true;
-
-
             //Creazione delle sprite delle carte//-----------------------------------//
             float width = gamePanel.Width / 2;
             float height = gamePanel.Height / 2;
@@ -68,50 +77,44 @@ namespace GiocoDiCarte
 
             for (int i = 0; i < 2; i++)
             {
-                for(int j = 0; j < 4; j++)
+                for (int j = 0; j < livello+1; j++)
                 {
-                    Rectangle r = new Rectangle(Convert.ToInt32((width - (retroCarta.Width + padding*3/2)) + (retroCarta.Width/2*j + padding*j/2)), Convert.ToInt32((height - (retroCarta.Height/2 + padding/2)) + (retroCarta.Height/2*i + padding*i)), retroCarta.Width/2, retroCarta.Height/2);
+                    Rectangle r = new Rectangle(Convert.ToInt32((width - (retroCarta.Width + padding * livello / 2)) + (retroCarta.Width / 2 * j + padding * j / 2)), Convert.ToInt32((height - (retroCarta.Height / 2 + padding / 2)) + (retroCarta.Height / 2 * i + padding * i)), retroCarta.Width / 2, retroCarta.Height / 2);
                     carte.Add(new Carta(r));
                 }
             }
 
-
             //Generazione casuale dell'ordine delle carte//--------------------------//
+            List<string> coloriDisponibili = colori.Take(livello+1).ToList();
+            coloriDisponibili.AddRange(colori.Take(livello + 1));
             List<int> esclusi = new List<int>();
             Random oggettoRand = new Random();
             int cartaCasuale;
 
-            for (int i = 0; i < 8; i++)
+            for(int i = 0; i < (livello+1)*2; i++)
             {
                 do
                 {
-                    cartaCasuale = oggettoRand.Next(1, 9);
+                    cartaCasuale = oggettoRand.Next(0, coloriDisponibili.Count);
 
-                } while(esclusi.Contains(cartaCasuale));
+                } while (esclusi.Contains(cartaCasuale));
 
-                if (cartaCasuale == 1 || cartaCasuale == 2)
-                {
-                    carte[i].sprite = (Bitmap)cartaArancio.Clone();
-                    carte[i].colore = 'a';
-                }
-                else if (cartaCasuale == 3 || cartaCasuale == 4)
-                {
-                    carte[i].sprite = (Bitmap)cartaRosso.Clone();
-                    carte[i].colore = 'r';
-                }
-                else if (cartaCasuale == 5 || cartaCasuale == 6)
-                {
-                    carte[i].sprite = (Bitmap)cartaBlu.Clone();
-                    carte[i].colore = 'b';
-                }
-                else if (cartaCasuale == 7 || cartaCasuale == 8)
-                {
-                    carte[i].sprite = (Bitmap)cartaVerde.Clone();
-                    carte[i].colore = 'v';
-                }
+                carte[i].colore = coloriDisponibili[cartaCasuale];
+                carte[i].sprite = 
 
                 esclusi.Add(cartaCasuale);
             }
+
+            inGame = true;
+        }
+
+        //tasto Gioca//--------------------------------------------------------------//
+        private void tastoGioca_Click(object sender, EventArgs e)
+        {
+            menuPanel.Hide();
+            victoryPanel.Hide();
+            gamePanel.Hide();
+            levelPanel.Show();
             
         }
 
@@ -218,10 +221,19 @@ namespace GiocoDiCarte
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void tornaMenu_Click(object sender, EventArgs e)
         {
+            
+
             menuPanel.Show();
             victoryPanel.Hide();
+        }
+
+        private void livello1_Click(object sender, EventArgs e)
+        {
+            generaCarte(1);
+            gamePanel.Show();
+            levelPanel.Hide();
         }
     }
 
