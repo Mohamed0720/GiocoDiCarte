@@ -49,12 +49,14 @@ namespace GiocoDiCarte
         private Bitmap cartaSole = new Bitmap("Sprite/cartaSole.png");
 
         List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Rosa", "Turchese", "Viola", "Fuoco", "Acqua", "Foglia", "Pietra", "Sole" };
+        List<Bitmap> sprites = new List<Bitmap>();
 
         private List<Carta> carte = new List<Carta>();
         private bool primaCarta = false;
         private Carta cartaGirata;
         private int condVittoria = 0;
         private int livelliSbloccati;
+        private int livelloSelezionato;
 
         //Funzione chiamata all'avvio del programma//--------------------------------//
         public Form1()                                                              
@@ -65,6 +67,8 @@ namespace GiocoDiCarte
             gamePanel.Dock = DockStyle.Fill;
             victoryPanel.Dock = DockStyle.Fill;
             menuPanel.BringToFront();
+
+            sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaRosa, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaFoglia, cartaPietra, cartaSole});
         }
 
         //Funzione di generazione//--------------------------------------------------//
@@ -79,7 +83,7 @@ namespace GiocoDiCarte
             {
                 for (int j = 0; j < livello+1; j++)
                 {
-                    Rectangle r = new Rectangle(Convert.ToInt32((width - (retroCarta.Width + padding * livello / 2)) + (retroCarta.Width / 2 * j + padding * j / 2)), Convert.ToInt32((height - (retroCarta.Height / 2 + padding / 2)) + (retroCarta.Height / 2 * i + padding * i)), retroCarta.Width / 2, retroCarta.Height / 2);
+                    Rectangle r = new Rectangle(Convert.ToInt32((width - ((retroCarta.Width/2*(livello+1)) + padding * (livello) / 2)) + (retroCarta.Width / 2 * j + padding * j / 2)), Convert.ToInt32((height - (retroCarta.Height / 2 + padding / 2)) + (retroCarta.Height / 2 * i + padding * i)), retroCarta.Width / 2, retroCarta.Height / 2);
                     carte.Add(new Carta(r));
                 }
             }
@@ -87,6 +91,13 @@ namespace GiocoDiCarte
             //Generazione casuale dell'ordine delle carte//--------------------------//
             List<string> coloriDisponibili = colori.Take(livello+1).ToList();
             coloriDisponibili.AddRange(colori.Take(livello + 1));
+            Dictionary<string, Bitmap> dictColori = new Dictionary<string, Bitmap>();
+
+            for(int i = 0; i < livello+1; i++)
+            {
+                dictColori.Add(coloriDisponibili[i], sprites[i]);
+            }
+
             List<int> esclusi = new List<int>();
             Random oggettoRand = new Random();
             int cartaCasuale;
@@ -100,7 +111,7 @@ namespace GiocoDiCarte
                 } while (esclusi.Contains(cartaCasuale));
 
                 carte[i].colore = coloriDisponibili[cartaCasuale];
-                carte[i].sprite = 
+                carte[i].sprite = dictColori[coloriDisponibili[i]];
 
                 esclusi.Add(cartaCasuale);
             }
@@ -139,7 +150,7 @@ namespace GiocoDiCarte
 
             if (inGame)
             {
-                for(int i = 0; i < 8; i++)
+                for(int i = 0; i < (livelloSelezionato+1)*2; i++)
                 {
                     if (carte[i].girato)
                     {
@@ -160,7 +171,7 @@ namespace GiocoDiCarte
         {
             if (inGame)
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < (livelloSelezionato+1)*2; i++)
                 {
                     if (carte[i].rect.Contains(e.Location))
                     {
@@ -175,7 +186,7 @@ namespace GiocoDiCarte
         {
             if (inGame)
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
                 {
                     if (carte[i].rect.Contains(e.Location))
                     {
@@ -198,7 +209,7 @@ namespace GiocoDiCarte
                             else
                             {
                                 condVittoria += 1;
-                                if(condVittoria >= 4)
+                                if(condVittoria >= livelloSelezionato+1)
                                 {
                                     gamePanel.Hide();
                                     victoryPanel.Show();
@@ -231,7 +242,8 @@ namespace GiocoDiCarte
 
         private void livello1_Click(object sender, EventArgs e)
         {
-            generaCarte(1);
+            livelloSelezionato = 1;
+            generaCarte(livelloSelezionato);
             gamePanel.Show();
             levelPanel.Hide();
         }
