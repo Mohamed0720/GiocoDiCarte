@@ -53,11 +53,13 @@
             // menuPanel
             // 
             this.menuPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuPanel.Location = new System.Drawing.Point(216, 38);
+            this.menuPanel.Location = new System.Drawing.Point(379, 8);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(800, 450);
             this.menuPanel.TabIndex = 3;
             this.menuPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.menuPanel_Paint);
+            this.menuPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.menuPanel_MouseClick);
+            this.menuPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.menuPanel_MouseMove);
             // 
             // victoryPanel
             // 
@@ -97,7 +99,7 @@
             this.gamePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.gamePanel.AutoSize = true;
             this.gamePanel.Controls.Add(this.Indietro);
-            this.gamePanel.Location = new System.Drawing.Point(87, 12);
+            this.gamePanel.Location = new System.Drawing.Point(87, 32);
             this.gamePanel.Name = "gamePanel";
             this.gamePanel.Size = new System.Drawing.Size(800, 514);
             this.gamePanel.TabIndex = 3;
