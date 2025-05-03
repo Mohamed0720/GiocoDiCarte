@@ -181,6 +181,7 @@
             this.livello12.TabIndex = 12;
             this.livello12.Text = "12";
             this.livello12.UseVisualStyleBackColor = false;
+            this.livello12.Click += new System.EventHandler(this.livello12_Click);
             // 
             // livello11
             // 
@@ -191,6 +192,7 @@
             this.livello11.TabIndex = 11;
             this.livello11.Text = "11";
             this.livello11.UseVisualStyleBackColor = false;
+            this.livello11.Click += new System.EventHandler(this.livello11_Click);
             // 
             // livello10
             // 
@@ -201,6 +203,7 @@
             this.livello10.TabIndex = 10;
             this.livello10.Text = "10";
             this.livello10.UseVisualStyleBackColor = false;
+            this.livello10.Click += new System.EventHandler(this.livello10_Click);
             // 
             // livello9
             // 
@@ -211,6 +214,7 @@
             this.livello9.TabIndex = 9;
             this.livello9.Text = "9";
             this.livello9.UseVisualStyleBackColor = false;
+            this.livello9.Click += new System.EventHandler(this.livello9_Click);
             // 
             // livello8
             // 
@@ -221,6 +225,7 @@
             this.livello8.TabIndex = 8;
             this.livello8.Text = "8";
             this.livello8.UseVisualStyleBackColor = false;
+            this.livello8.Click += new System.EventHandler(this.livello8_Click);
             // 
             // livello7
             // 
@@ -231,6 +236,7 @@
             this.livello7.TabIndex = 7;
             this.livello7.Text = "7";
             this.livello7.UseVisualStyleBackColor = false;
+            this.livello7.Click += new System.EventHandler(this.livello7_Click);
             // 
             // livello6
             // 
@@ -241,6 +247,7 @@
             this.livello6.TabIndex = 6;
             this.livello6.Text = "6";
             this.livello6.UseVisualStyleBackColor = false;
+            this.livello6.Click += new System.EventHandler(this.livello6_Click);
             // 
             // livello5
             // 
@@ -251,6 +258,7 @@
             this.livello5.TabIndex = 5;
             this.livello5.Text = "5";
             this.livello5.UseVisualStyleBackColor = false;
+            this.livello5.Click += new System.EventHandler(this.livello5_Click);
             // 
             // label2
             // 
@@ -271,6 +279,7 @@
             this.livello4.TabIndex = 3;
             this.livello4.Text = "4";
             this.livello4.UseVisualStyleBackColor = false;
+            this.livello4.Click += new System.EventHandler(this.livello4_Click);
             // 
             // livello3
             // 
@@ -281,6 +290,7 @@
             this.livello3.TabIndex = 2;
             this.livello3.Text = "3";
             this.livello3.UseVisualStyleBackColor = false;
+            this.livello3.Click += new System.EventHandler(this.livello3_Click);
             // 
             // livello2
             // 
@@ -291,6 +301,7 @@
             this.livello2.TabIndex = 1;
             this.livello2.Text = "2";
             this.livello2.UseVisualStyleBackColor = false;
+            this.livello2.Click += new System.EventHandler(this.livello2_Click);
             // 
             // livello1
             // 

@@ -55,8 +55,12 @@ namespace GiocoDiCarte
         private bool primaCarta = false;
         private Carta cartaGirata;
         private int condVittoria = 0;
-        private int livelliSbloccati;
+        private int livelliSbloccati = 12;
         private int livelloSelezionato;
+
+        private List<Button> pulsantiLivello = new List<Button>();
+
+        private bool pausaClick = false;
 
         //Funzione chiamata all'avvio del programma//--------------------------------//
         public Form1()                                                              
@@ -69,52 +73,76 @@ namespace GiocoDiCarte
             menuPanel.BringToFront();
 
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaRosa, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaFoglia, cartaPietra, cartaSole});
+            pulsantiLivello.AddRange(new List<Button> { livello1, livello2, livello3, livello4, livello5, livello6, livello7, livello8, livello9, livello10, livello11, livello12 });
         }
 
         //Funzione di generazione//--------------------------------------------------//
         private void generaCarte(int livello)
         {
+            carte.Clear();
             //Creazione delle sprite delle carte//-----------------------------------//
-            float width = gamePanel.Width / 2;
-            float height = gamePanel.Height / 2;
+            int screenWidth = gamePanel.Width / 2;
+            int screenHeight = gamePanel.Height / 2;
             int padding = 20;
+            int totaleCarte = (livello + 1) * 2;
+            int righe = (int)Math.Ceiling((double)totaleCarte / 6);
+            int colonne;
+            colonne = totaleCarte < 6 ? totaleCarte : totaleCarte / righe;
+            
+            int larghezzaCarta = retroCarta.Width / 2;
+            int altezzaCarta = retroCarta.Height / 2;
 
-            for (int i = 0; i < 2; i++)
+            int grigliaWidth = ((larghezzaCarta * colonne) + (padding * (colonne - 1)))/2;
+            int grigliaHeight = (altezzaCarta * righe + padding * righe)/2;
+
+            int startX = screenWidth - grigliaWidth;
+            int startY = screenHeight - grigliaHeight;
+
+            for (int i = 0; i < righe; i++)
             {
-                for (int j = 0; j < livello+1; j++)
+                for (int j = 0; j < colonne; j++)
                 {
-                    Rectangle r = new Rectangle(Convert.ToInt32((width - ((retroCarta.Width/2*(livello+1)) + padding * (livello) / 2)) + (retroCarta.Width / 2 * j + padding * j / 2)), Convert.ToInt32((height - (retroCarta.Height / 2 + padding / 2)) + (retroCarta.Height / 2 * i + padding * i)), retroCarta.Width / 2, retroCarta.Height / 2);
+                    int x = startX + j * (larghezzaCarta + padding);
+                    int y = startY + altezzaCarta * i + padding * i;
+
+                    Rectangle r = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
                     carte.Add(new Carta(r));
                 }
             }
 
             //Generazione casuale dell'ordine delle carte//--------------------------//
-            List<string> coloriDisponibili = colori.Take(livello+1).ToList();
-            coloriDisponibili.AddRange(colori.Take(livello + 1));
+            List<string> coloriDisponibili = new List<string>();
             Dictionary<string, Bitmap> dictColori = new Dictionary<string, Bitmap>();
 
-            for(int i = 0; i < livello+1; i++)
+            coloriDisponibili.AddRange(colori.Take(livello + 1));
+            coloriDisponibili.AddRange(colori.Take(livello + 1));
+
+            for (int i = 0; i < livello+1; i++)
             {
                 dictColori.Add(coloriDisponibili[i], sprites[i]);
             }
 
-            List<int> esclusi = new List<int>();
             Random oggettoRand = new Random();
-            int cartaCasuale;
+
+            for(int i = coloriDisponibili.Count - 1; i > 0; i--)
+            {
+                int m = oggettoRand.Next(i + 1);
+
+                var temp = coloriDisponibili[m];
+                coloriDisponibili[m] = coloriDisponibili[i];
+                coloriDisponibili[i] = temp;
+            }
 
             for(int i = 0; i < (livello+1)*2; i++)
             {
-                do
-                {
-                    cartaCasuale = oggettoRand.Next(0, coloriDisponibili.Count);
-
-                } while (esclusi.Contains(cartaCasuale));
-
-                carte[i].colore = coloriDisponibili[cartaCasuale];
+                carte[i].colore = coloriDisponibili[i];
                 carte[i].sprite = dictColori[coloriDisponibili[i]];
 
-                esclusi.Add(cartaCasuale);
             }
+
+            coloriDisponibili.Clear();
+            dictColori.Clear();
+            
 
             inGame = true;
         }
@@ -127,6 +155,10 @@ namespace GiocoDiCarte
             gamePanel.Hide();
             levelPanel.Show();
             
+            for(int i = 0; i < livelliSbloccati; i++)
+            {
+                pulsantiLivello[i].BackColor = Color.White;
+            }
         }
 
         //Tasto Esci//---------------------------------------------------------------//
@@ -141,7 +173,7 @@ namespace GiocoDiCarte
             gamePanel.Hide();
             menuPanel.Show();
             inGame = false;
-
+            condVittoria = 0;
         }
 
         //Funzione chiamata ad ogni ridisegno del pannello di gioco//----------------//
@@ -184,68 +216,217 @@ namespace GiocoDiCarte
         //Quando si preme col mouse su una carta//-----------------------------------//
         private async void panelGame_MouseClick(object sender, MouseEventArgs e)
         {
-            if (inGame)
+            if (!inGame || pausaClick)
+                return;
+
+            for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
             {
-                for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
+                if (carte[i].rect.Contains(e.Location) && !carte[i].girato)
                 {
-                    if (carte[i].rect.Contains(e.Location))
+                    //Quando si preme su una carta il programma controlla se è
+                    //la prima o la seconda carta che si sceglie
+                    if (!primaCarta)
                     {
-                        //Quando si preme su una carta il programma controlla se è
-                        //la prima o la seconda carta che si sceglie
-                        if (primaCarta) 
+                        carte[i].girato = true;
+                        primaCarta = true;
+                        cartaGirata = carte[i];
+                        gamePanel.Invalidate();
+                    }
+                    else
+                    {
+                        carte[i].girato = true;
+                        pausaClick = true;
+                        gamePanel.Invalidate();
+
+                        //Se le carte sono di colore diverso le rigira
+                        if (carte[i].colore == cartaGirata.colore)
                         {
-                            carte[i].girato = true;
-                            gamePanel.Invalidate();
-
-                            await Task.Delay(500);
-
-                            //Se le carte sono di colore diverso le rigira
-                            if (carte[i].colore != cartaGirata.colore)
+                            condVittoria += 1;
+                            if (condVittoria >= livelloSelezionato + 1)
                             {
-                                carte[i].girato = false;
-                                cartaGirata.girato = false;
-                                gamePanel.Invalidate();
+                                inGame = false;
+                                gamePanel.Hide();
+                                victoryPanel.Show();
+                                victoryPanel.BringToFront();
+                                this.Refresh();
+                                condVittoria = 0;
+                                livelliSbloccati += 1;
                             }
-                            else
-                            {
-                                condVittoria += 1;
-                                if(condVittoria >= livelloSelezionato+1)
-                                {
-                                    gamePanel.Hide();
-                                    victoryPanel.Show();
-                                    victoryPanel.BringToFront();
-                                    this.Refresh();
-                                }
-                            }
-
-                                primaCarta = false;
                         }
                         else
                         {
-                            carte[i].girato = true;
-                            primaCarta = true;
-                            cartaGirata = carte[i];
+                            await Task.Delay(500);
+                            carte[i].girato = false;
+                            cartaGirata.girato = false;
+
                             gamePanel.Invalidate();
                         }
+
+                        pausaClick = false;
+                        primaCarta = false;
                     }
+
+                    break;
                 }
             }
+
         }
 
+        //Quando si preme si torna al menu principale//------------------------------//
         private void tornaMenu_Click(object sender, EventArgs e)
         {
-            
-
             menuPanel.Show();
             victoryPanel.Hide();
-        }
+            carte.Clear();
 
+            for (int i = 0; i < livelliSbloccati; i++)
+            {
+                pulsantiLivello[i].BackColor = Color.White;
+            }
+        }
+        
+
+//------------------------------------------LIVELLI------------------------------------------//
+
+        //livello1//-----------------------------------------------------------------//
         private void livello1_Click(object sender, EventArgs e)
         {
             livelloSelezionato = 1;
             generaCarte(livelloSelezionato);
             gamePanel.Show();
             levelPanel.Hide();
+        }
+
+        //Livello 2//----------------------------------------------------------------//
+        private void livello2_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 2;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 3//----------------------------------------------------------------//
+        private void livello3_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 3;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 4//----------------------------------------------------------------//
+        private void livello4_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 4;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 5//----------------------------------------------------------------//
+        private void livello5_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 5;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 6//----------------------------------------------------------------//
+        private void livello6_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 6;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 7//---------------------------------------------------------------//
+        private void livello7_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 7;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 8//----------------------------------------------------------------//
+        private void livello8_Click(object sender, EventArgs e)
+        {
+            if (livelliSbloccati >= 8)
+            {
+                livelloSelezionato = 8;
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 9//----------------------------------------------------------------//
+        private void livello9_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 9;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 10//---------------------------------------------------------------//
+        private void livello10_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 10;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 11//---------------------------------------------------------------//
+        private void livello11_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 11;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
+        }
+
+        //Livello 12//---------------------------------------------------------------//
+        private void livello12_Click(object sender, EventArgs e)
+        {
+            livelloSelezionato = 12;
+            if (livelliSbloccati >= livelloSelezionato)
+            {
+                generaCarte(livelloSelezionato);
+                gamePanel.Show();
+                levelPanel.Hide();
+            }
         }
     }
 
