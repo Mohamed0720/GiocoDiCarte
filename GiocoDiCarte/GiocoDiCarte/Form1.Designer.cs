@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.tastoGioca = new System.Windows.Forms.Label();
-            this.tastoEsci = new System.Windows.Forms.Label();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.victoryPanel = new System.Windows.Forms.Panel();
             this.tornaMenu = new System.Windows.Forms.Button();
@@ -38,9 +35,6 @@
             this.gamePanel = new System.Windows.Forms.Panel();
             this.Indietro = new System.Windows.Forms.Button();
             this.levelPanel = new System.Windows.Forms.Panel();
-            this.livello12 = new System.Windows.Forms.Button();
-            this.livello11 = new System.Windows.Forms.Button();
-            this.livello10 = new System.Windows.Forms.Button();
             this.livello9 = new System.Windows.Forms.Button();
             this.livello8 = new System.Windows.Forms.Button();
             this.livello7 = new System.Windows.Forms.Button();
@@ -51,60 +45,27 @@
             this.livello3 = new System.Windows.Forms.Button();
             this.livello2 = new System.Windows.Forms.Button();
             this.livello1 = new System.Windows.Forms.Button();
-            this.menuPanel.SuspendLayout();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 50F);
-            this.label1.Location = new System.Drawing.Point(181, 91);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(456, 76);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Gioco di Carte";
-            // 
-            // tastoGioca
-            // 
-            this.tastoGioca.AutoSize = true;
-            this.tastoGioca.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.tastoGioca.Location = new System.Drawing.Point(362, 227);
-            this.tastoGioca.Name = "tastoGioca";
-            this.tastoGioca.Size = new System.Drawing.Size(85, 31);
-            this.tastoGioca.TabIndex = 1;
-            this.tastoGioca.Text = "Gioca";
-            this.tastoGioca.Click += new System.EventHandler(this.tastoGioca_Click);
-            // 
-            // tastoEsci
-            // 
-            this.tastoEsci.AutoSize = true;
-            this.tastoEsci.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.tastoEsci.Location = new System.Drawing.Point(371, 288);
-            this.tastoEsci.Name = "tastoEsci";
-            this.tastoEsci.Size = new System.Drawing.Size(66, 31);
-            this.tastoEsci.TabIndex = 2;
-            this.tastoEsci.Text = "Esci";
-            this.tastoEsci.Click += new System.EventHandler(this.tastoEsci_Click);
-            // 
             // menuPanel
             // 
-            this.menuPanel.AutoSize = true;
-            this.menuPanel.Controls.Add(this.tastoEsci);
-            this.menuPanel.Controls.Add(this.tastoGioca);
-            this.menuPanel.Controls.Add(this.label1);
-            this.menuPanel.Location = new System.Drawing.Point(182, 12);
+            this.menuPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.menuPanel.Location = new System.Drawing.Point(216, 38);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(800, 450);
             this.menuPanel.TabIndex = 3;
+            this.menuPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.menuPanel_Paint);
             // 
             // victoryPanel
             // 
+            this.victoryPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.victoryPanel.AutoSize = true;
             this.victoryPanel.Controls.Add(this.tornaMenu);
             this.victoryPanel.Controls.Add(this.titoloVittoria);
-            this.victoryPanel.Location = new System.Drawing.Point(12, 113);
+            this.victoryPanel.Location = new System.Drawing.Point(42, 139);
             this.victoryPanel.Name = "victoryPanel";
             this.victoryPanel.Size = new System.Drawing.Size(800, 450);
             this.victoryPanel.TabIndex = 1;
@@ -133,10 +94,12 @@
             // 
             // gamePanel
             // 
+            this.gamePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.gamePanel.AutoSize = true;
             this.gamePanel.Controls.Add(this.Indietro);
-            this.gamePanel.Location = new System.Drawing.Point(51, 74);
+            this.gamePanel.Location = new System.Drawing.Point(87, 12);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(800, 450);
+            this.gamePanel.Size = new System.Drawing.Size(800, 514);
             this.gamePanel.TabIndex = 3;
             this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
             this.gamePanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
@@ -144,7 +107,7 @@
             // 
             // Indietro
             // 
-            this.Indietro.Location = new System.Drawing.Point(27, 405);
+            this.Indietro.Location = new System.Drawing.Point(28, 463);
             this.Indietro.Name = "Indietro";
             this.Indietro.Size = new System.Drawing.Size(95, 23);
             this.Indietro.TabIndex = 0;
@@ -154,9 +117,8 @@
             // 
             // levelPanel
             // 
-            this.levelPanel.Controls.Add(this.livello12);
-            this.levelPanel.Controls.Add(this.livello11);
-            this.levelPanel.Controls.Add(this.livello10);
+            this.levelPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.levelPanel.AutoSize = true;
             this.levelPanel.Controls.Add(this.livello9);
             this.levelPanel.Controls.Add(this.livello8);
             this.levelPanel.Controls.Add(this.livello7);
@@ -167,48 +129,15 @@
             this.levelPanel.Controls.Add(this.livello3);
             this.levelPanel.Controls.Add(this.livello2);
             this.levelPanel.Controls.Add(this.livello1);
-            this.levelPanel.Location = new System.Drawing.Point(95, 25);
+            this.levelPanel.Location = new System.Drawing.Point(54, 75);
             this.levelPanel.Name = "levelPanel";
             this.levelPanel.Size = new System.Drawing.Size(799, 413);
             this.levelPanel.TabIndex = 3;
             // 
-            // livello12
-            // 
-            this.livello12.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello12.Location = new System.Drawing.Point(545, 260);
-            this.livello12.Name = "livello12";
-            this.livello12.Size = new System.Drawing.Size(75, 23);
-            this.livello12.TabIndex = 12;
-            this.livello12.Text = "12";
-            this.livello12.UseVisualStyleBackColor = false;
-            this.livello12.Click += new System.EventHandler(this.livello12_Click);
-            // 
-            // livello11
-            // 
-            this.livello11.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello11.Location = new System.Drawing.Point(408, 260);
-            this.livello11.Name = "livello11";
-            this.livello11.Size = new System.Drawing.Size(75, 23);
-            this.livello11.TabIndex = 11;
-            this.livello11.Text = "11";
-            this.livello11.UseVisualStyleBackColor = false;
-            this.livello11.Click += new System.EventHandler(this.livello11_Click);
-            // 
-            // livello10
-            // 
-            this.livello10.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello10.Location = new System.Drawing.Point(283, 260);
-            this.livello10.Name = "livello10";
-            this.livello10.Size = new System.Drawing.Size(75, 23);
-            this.livello10.TabIndex = 10;
-            this.livello10.Text = "10";
-            this.livello10.UseVisualStyleBackColor = false;
-            this.livello10.Click += new System.EventHandler(this.livello10_Click);
-            // 
             // livello9
             // 
             this.livello9.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello9.Location = new System.Drawing.Point(168, 260);
+            this.livello9.Location = new System.Drawing.Point(482, 262);
             this.livello9.Name = "livello9";
             this.livello9.Size = new System.Drawing.Size(75, 23);
             this.livello9.TabIndex = 9;
@@ -219,7 +148,7 @@
             // livello8
             // 
             this.livello8.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello8.Location = new System.Drawing.Point(545, 193);
+            this.livello8.Location = new System.Drawing.Point(351, 262);
             this.livello8.Name = "livello8";
             this.livello8.Size = new System.Drawing.Size(75, 23);
             this.livello8.TabIndex = 8;
@@ -230,7 +159,7 @@
             // livello7
             // 
             this.livello7.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello7.Location = new System.Drawing.Point(408, 193);
+            this.livello7.Location = new System.Drawing.Point(224, 262);
             this.livello7.Name = "livello7";
             this.livello7.Size = new System.Drawing.Size(75, 23);
             this.livello7.TabIndex = 7;
@@ -241,7 +170,7 @@
             // livello6
             // 
             this.livello6.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello6.Location = new System.Drawing.Point(283, 193);
+            this.livello6.Location = new System.Drawing.Point(482, 208);
             this.livello6.Name = "livello6";
             this.livello6.Size = new System.Drawing.Size(75, 23);
             this.livello6.TabIndex = 6;
@@ -252,7 +181,7 @@
             // livello5
             // 
             this.livello5.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello5.Location = new System.Drawing.Point(168, 193);
+            this.livello5.Location = new System.Drawing.Point(353, 208);
             this.livello5.Name = "livello5";
             this.livello5.Size = new System.Drawing.Size(75, 23);
             this.livello5.TabIndex = 5;
@@ -273,7 +202,7 @@
             // livello4
             // 
             this.livello4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello4.Location = new System.Drawing.Point(545, 130);
+            this.livello4.Location = new System.Drawing.Point(224, 208);
             this.livello4.Name = "livello4";
             this.livello4.Size = new System.Drawing.Size(75, 23);
             this.livello4.TabIndex = 3;
@@ -284,7 +213,7 @@
             // livello3
             // 
             this.livello3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello3.Location = new System.Drawing.Point(408, 130);
+            this.livello3.Location = new System.Drawing.Point(482, 153);
             this.livello3.Name = "livello3";
             this.livello3.Size = new System.Drawing.Size(75, 23);
             this.livello3.TabIndex = 2;
@@ -295,7 +224,7 @@
             // livello2
             // 
             this.livello2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.livello2.Location = new System.Drawing.Point(283, 130);
+            this.livello2.Location = new System.Drawing.Point(351, 153);
             this.livello2.Name = "livello2";
             this.livello2.Size = new System.Drawing.Size(75, 23);
             this.livello2.TabIndex = 1;
@@ -305,7 +234,7 @@
             // 
             // livello1
             // 
-            this.livello1.Location = new System.Drawing.Point(168, 130);
+            this.livello1.Location = new System.Drawing.Point(228, 153);
             this.livello1.Name = "livello1";
             this.livello1.Size = new System.Drawing.Size(75, 23);
             this.livello1.TabIndex = 0;
@@ -317,17 +246,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.levelPanel);
+            this.ClientSize = new System.Drawing.Size(954, 570);
             this.Controls.Add(this.menuPanel);
             this.Controls.Add(this.gamePanel);
+            this.Controls.Add(this.levelPanel);
             this.Controls.Add(this.victoryPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.menuPanel.ResumeLayout(false);
-            this.menuPanel.PerformLayout();
             this.victoryPanel.ResumeLayout(false);
             this.victoryPanel.PerformLayout();
             this.gamePanel.ResumeLayout(false);
@@ -339,10 +266,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label tastoGioca;
-        private System.Windows.Forms.Label tastoEsci;
         private System.Windows.Forms.Panel menuPanel;
         private System.Windows.Forms.Panel gamePanel;
         private System.Windows.Forms.Button Indietro;
@@ -350,9 +273,6 @@
         private System.Windows.Forms.Label titoloVittoria;
         private System.Windows.Forms.Button tornaMenu;
         private System.Windows.Forms.Panel levelPanel;
-        private System.Windows.Forms.Button livello12;
-        private System.Windows.Forms.Button livello11;
-        private System.Windows.Forms.Button livello10;
         private System.Windows.Forms.Button livello9;
         private System.Windows.Forms.Button livello8;
         private System.Windows.Forms.Button livello7;
