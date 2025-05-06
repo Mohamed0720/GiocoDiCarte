@@ -135,6 +135,8 @@
             this.levelPanel.Name = "levelPanel";
             this.levelPanel.Size = new System.Drawing.Size(799, 413);
             this.levelPanel.TabIndex = 3;
+            this.levelPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.levelPanel_MouseClick);
+            this.levelPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.levelPanel_MouseMove);
             // 
             // livello9
             // 
@@ -253,6 +255,7 @@
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.levelPanel);
             this.Controls.Add(this.victoryPanel);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";

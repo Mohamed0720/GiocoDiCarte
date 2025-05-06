@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -35,17 +37,23 @@ namespace GiocoDiCarte
         {
             public Rectangle r { get; set; }
             public bool hover { get; set; }
+            public bool changed { get; set; }
 
             public Pulsante(Rectangle r)
             {
                 this.r = r;
                 this.hover = false;
-                this.hover = hover;
             }
         }
+        
+        
         //Variabili generali//-------------------------------------------------------//
         private bool inGame = false;
+        private bool inMenu = true;
+        private bool inLevels = false;
+        private bool inVictory = false;
 
+        //Le Bitmap//
         private Bitmap retroCarta = new Bitmap("Sprite/retroCarta.png");
         private Bitmap cartaArancio = new Bitmap("Sprite/cartaArancio.png");
         private Bitmap cartaRosso = new Bitmap("Sprite/cartaRosso.png");
@@ -60,32 +68,36 @@ namespace GiocoDiCarte
 
         private Bitmap titolo = new Bitmap("Sprite/titolo.png");
         private Bitmap gioca = new Bitmap("Sprite/gioca.png");
+        private Bitmap giocaHover = new Bitmap("Sprite/giocaHover.png");
         private Bitmap esci = new Bitmap("Sprite/esci.png");
+        private Bitmap esciHover = new Bitmap("Sprite/esciHover.png");
+        private Bitmap sfondo = new Bitmap("Sprite/sfondo.png");
 
+        //Gli Oggetti Pulsante nel Main//
         private Pulsante Gioca;
         private Pulsante Esci;
         private Pulsante Titolo;
 
-        Rectangle giocaR;
-        Rectangle esciR;
-        Rectangle titoloR;
-
+        //Liste per tenere le carte//
         List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Turchese", "Viola", "Fuoco", "Acqua", "Sole" };
         List<Bitmap> sprites = new List<Bitmap>();
 
+        //Variabili per gestire le carte//
         private List<Carta> carte = new List<Carta>();
         private bool primaCarta = false;
         private Carta cartaGirata;
+        //Variabili per gestire i livelli e la condizione di vittoria//
         private int condVittoria = 0;
         private int livelliSbloccati = 9;
         private int livelloSelezionato;
-        private int carteLivello = 0;
-
         private List<Button> pulsantiLivello = new List<Button>();
-
+        //Variabili booleane per altro
         private bool pausaClick = false;
 
-        private bool inMenu = true;
+        
+
+
+//--------------------------------------#/GENERALI\#-----------------------------------------\\
 
         //Centra i Pannelli//--------------------------------------------------------//
         private void centraPannello(Panel p)
@@ -96,9 +108,11 @@ namespace GiocoDiCarte
         }
 
         //Funzione chiamata all'avvio del programma//--------------------------------//
-        public Form1()                                                              
+        public Form1()
+            
         {                                                                           
             InitializeComponent();
+
             centraPannello(menuPanel);
             centraPannello(levelPanel);
             centraPannello(gamePanel);
@@ -109,33 +123,140 @@ namespace GiocoDiCarte
             gamePanel.Dock = DockStyle.Fill;
             victoryPanel.Dock = DockStyle.Fill;
 
-            Color prugna = Color.FromArgb(7, 59, 76);
-            victoryPanel.BackColor = prugna;
-            gamePanel.BackColor = prugna;
-            levelPanel.BackColor = prugna;
-            menuPanel.BackColor = prugna;
+            foreach(Control ctrl in this.Controls)
+            {
+                if(ctrl is Panel panel)
+                {
+                    panel.BackgroundImage = sfondo;
+                    panel.BackgroundImageLayout = ImageLayout.Tile;
+                }
+            }
             menuPanel.BringToFront();
 
             int giocaX = this.ClientSize.Width / 2 - gioca.Width / 2;
             int giocaY = this.ClientSize.Height / 2 - gioca.Height / 2;
-            giocaR = new Rectangle(giocaX, giocaY, gioca.Width, gioca.Height);
-            Gioca = new Pulsante(giocaR);
-            
+            Rectangle r = new Rectangle(giocaX, giocaY, gioca.Width, gioca.Height);
+            Gioca = new Pulsante(r);
 
             int esciX = this.ClientSize.Width / 2 - esci.Width / 2;
             int esciY = this.ClientSize.Height / 2 + esci.Height;
-            esciR = new Rectangle(esciX, esciY, esci.Width, esci.Height);
-            Esci = new Pulsante(esciR);
-
+            r = new Rectangle(esciX, esciY, esci.Width, esci.Height);
+            Esci = new Pulsante(r);
 
             int titoloX = this.ClientSize.Width / 2 - titolo.Width / 2;
             int titoloY = this.ClientSize.Height / 2 - titolo.Height * 2;
-            titoloR = new Rectangle(titoloX, titoloY, titolo.Width, titolo.Height);
-            Titolo = new Pulsante(titoloR);
+            r = new Rectangle(titoloX, titoloY, titolo.Width, titolo.Height);
+            Titolo = new Pulsante(r);
 
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
             pulsantiLivello.AddRange(new List<Button> { livello1, livello2, livello3, livello4, livello5, livello6, livello7, livello8, livello9});
+            Timer timer = new Timer();
+            timer.Interval = 32;
+            timer.Tick += ridisegno;
+            timer.Start();
+
         }
+
+        //Ridisegno pannelli ogni tot tempo//----------------------------------------//
+        private void ridisegno(object sender, EventArgs e)
+        {
+            if (inMenu)
+            {
+                if (Gioca.changed)
+                {
+                    menuPanel.Invalidate(Gioca.r);
+                    Gioca.changed = false;
+                }
+
+                if (Esci.changed)
+                {
+                    menuPanel.Invalidate(Esci.r);
+                    Esci.changed = false;
+                }
+            }
+            else if (inGame)
+            {
+                gamePanel.Invalidate();
+            }
+        }
+
+//-----------------------------------------#/MENU\#------------------------------------------\\
+
+        //Funzione per ridisegno Main Menu//-----------------------------------------//
+        private void menuPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+            e.Graphics.DrawImage(Gioca.hover ? giocaHover : gioca, Gioca.r);
+            
+            e.Graphics.DrawImage(Esci.hover ? esciHover : esci, Esci.r);
+
+            e.Graphics.DrawImage(titolo, Titolo.r);
+            
+        }
+
+        //Funzione di rilevamento click nel main Menu//------------------------------//
+        private void menuPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (inMenu)
+            {
+                if (Gioca.r.Contains(e.Location))
+                {
+                    menuPanel.Hide();
+                    victoryPanel.Hide();
+                    gamePanel.Hide();
+                    levelPanel.Show();
+
+                    for (int i = 0; i < livelliSbloccati; i++)
+                    {
+                        pulsantiLivello[i].BackColor = Color.White;
+                    }
+                }
+                else if (Esci.r.Contains(e.Location))
+                {
+                    this.Close();
+                }
+            }
+        }
+
+        //Quando il mouse sta su un pulsante nel main menu//-------------------------//
+        private void menuPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (inMenu)
+            {
+                //Gioca
+                if (Gioca.r.Contains(e.Location) != Gioca.hover)
+                {
+                    Gioca.changed = true;
+                    Gioca.hover = Gioca.r.Contains(e.Location);
+                }
+
+
+                //Esci
+                if (Esci.r.Contains(e.Location) != Esci.hover)
+                {
+                    Esci.changed = true;
+                    Esci.hover = Esci.r.Contains(e.Location);
+                }
+            }
+
+        }
+
+//------------------------------------#/SELEZIONE LIVELLI\#---------------------------------------\\
+
+        //Quando il mouse clicca sul pannello dei livelli//--------------------------//
+        private void levelPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        //Quando il mouse si muove mentre è nel pannello dei livelli//---------------//
+        private void levelPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+
+//------------------------------------------#/GIOCO\#---------------------------------------\\
 
         //Funzione di generazione//--------------------------------------------------//
         private void generaCarte(int livello)
@@ -237,7 +358,6 @@ namespace GiocoDiCarte
         //Funzione chiamata ad ogni ridisegno del pannello di gioco//----------------//
         private void panelGame_Paint(object sender, PaintEventArgs e)
         {
-
             if (inGame)
             {
                 for(int i = 0; i < (livelloSelezionato +1)*2; i++)
@@ -252,73 +372,6 @@ namespace GiocoDiCarte
                     }
                 }
                 
-            }
-            
-        }
-
-        //Funzione per ridisegno Main Menu//-----------------------------------------//
-        private void menuPanel_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawImage(gioca, Gioca.r);
-            
-            e.Graphics.DrawImage(esci, Esci.r);
-
-            e.Graphics.DrawImage(titolo, Titolo.r);
-        }
-
-        //Funzione di rilevamento click nel main Menu//------------------------------//
-        private void menuPanel_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (inMenu)
-            {
-                if (Gioca.r.Contains(e.Location))
-                {
-                    menuPanel.Hide();
-                    victoryPanel.Hide();
-                    gamePanel.Hide();
-                    levelPanel.Show();
-
-                    for (int i = 0; i < livelliSbloccati; i++)
-                    {
-                        pulsantiLivello[i].BackColor = Color.White;
-                    }
-                } else if (Esci.r.Contains(e.Location))
-                {
-                    this.Close();
-                }
-            }
-        }
-
-        //Quando il mouse sta su un pulsante nel main menu//-------------------------//
-        private void menuPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (inMenu)
-            {
-                if (Gioca.r.Contains(e.Location) && !Gioca.hover)
-                {
-                    Gioca.r = new Rectangle(Gioca.r.X, Gioca.r.Y, Gioca.r.Width + Gioca.r.Width / 10, Gioca.r.Height + Gioca.r.Height/ 10);
-                    Gioca.hover = true;
-                    menuPanel.Invalidate();
-                }
-                else if (!Gioca.r.Contains(e.Location) && Gioca.hover)
-                {
-                    Gioca.r = giocaR;
-                    Gioca.hover = false;
-                    menuPanel.Invalidate();
-                }
-
-                if(Esci.r.Contains(e.Location) && !Esci.hover)
-                {
-                    Esci.r = new Rectangle(Esci.r.X, Esci.r.Y, Esci.r.Width + Esci.r.Width/10, Esci.r.Height + Esci.r.Height/ 10);
-                    Esci.hover = true;
-                    menuPanel.Invalidate();
-                }
-                else if (!Esci.r.Contains(e.Location) && Esci.hover)
-                {
-                    Esci.r = esciR;
-                    Esci.hover = false;
-                    menuPanel.Invalidate();
-                }
             }
             
         }
@@ -355,13 +408,11 @@ namespace GiocoDiCarte
                         carte[i].girato = true;
                         primaCarta = true;
                         cartaGirata = carte[i];
-                        gamePanel.Invalidate();
                     }
                     else
                     {
                         carte[i].girato = true;
                         pausaClick = true;
-                        gamePanel.Invalidate();
 
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
@@ -389,8 +440,6 @@ namespace GiocoDiCarte
                             await Task.Delay(500);
                             carte[i].girato = false;
                             cartaGirata.girato = false;
-
-                            gamePanel.Invalidate();
                         }
 
                         pausaClick = false;
