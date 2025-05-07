@@ -36,6 +36,8 @@
             this.Indietro = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.levelPanel = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
             this.levelPanel.SuspendLayout();
@@ -89,6 +91,7 @@
             // 
             this.gamePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.gamePanel.AutoSize = true;
+            this.gamePanel.Controls.Add(this.label3);
             this.gamePanel.Controls.Add(this.Indietro);
             this.gamePanel.Location = new System.Drawing.Point(87, 32);
             this.gamePanel.Name = "gamePanel";
@@ -131,14 +134,33 @@
             this.levelPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.levelPanel_MouseClick);
             this.levelPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.levelPanel_MouseMove);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "label1";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(636, 44);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "label3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(954, 570);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.levelPanel);
             this.Controls.Add(this.menuPanel);
-            this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.victoryPanel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -148,6 +170,7 @@
             this.victoryPanel.ResumeLayout(false);
             this.victoryPanel.PerformLayout();
             this.gamePanel.ResumeLayout(false);
+            this.gamePanel.PerformLayout();
             this.levelPanel.ResumeLayout(false);
             this.levelPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -164,6 +187,8 @@
         private System.Windows.Forms.Button tornaMenu;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel levelPanel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
     }
 }
 

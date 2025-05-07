@@ -107,6 +107,7 @@ namespace GiocoDiCarte
         private int condVittoria = 0;
         private int livelliSbloccati = 9;
         private int livelloSelezionato;
+        private int nmosse; 
         //Variabili booleane per altro
         private bool pausaClick = false;
 
@@ -321,6 +322,7 @@ namespace GiocoDiCarte
                         livelloSelezionato = i+1; 
                         if(livelliSbloccati >= livelloSelezionato)
                         {
+                            nmosse = livelloSelezionato + 1;
                             generaCarte(livelloSelezionato);
                             gamePanel.Show();
                             levelPanel.Hide();
@@ -499,11 +501,14 @@ namespace GiocoDiCarte
                         carte[i].girato = true;
                         primaCarta = true;
                         cartaGirata = carte[i];
+                       
                     }
                     else
                     {
                         carte[i].girato = true;
                         pausaClick = true;
+                        nmosse--;
+                        label3.Text = nmosse.ToString();
 
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
