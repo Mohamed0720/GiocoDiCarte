@@ -18,3 +18,13 @@ C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug
 C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.csproj.CoreCompileInputs.cache
 C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.exe
 C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.pdb
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\bin\Debug\GiocoDiCarte.exe.config
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\bin\Debug\GiocoDiCarte.exe
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\bin\Debug\GiocoDiCarte.pdb
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.csproj.AssemblyReference.cache
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.Form1.resources
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.Properties.Resources.resources
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.csproj.GenerateResource.cache
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.csproj.CoreCompileInputs.cache
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.exe
+C:\Users\Studente\Documents\Mohamed\Github\GiocoCarte\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.pdb

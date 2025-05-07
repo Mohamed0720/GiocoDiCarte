@@ -176,8 +176,13 @@ namespace GiocoDiCarte
             }
             else if (inGame)
             {
-                gamePanel.Invalidate();
+
+                for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
+                {
+                    gamePanel.Invalidate(carte[i].rect);
+                }
             }
+            
         }
 
 //-----------------------------------------#/MENU\#------------------------------------------\\
@@ -191,6 +196,7 @@ namespace GiocoDiCarte
             e.Graphics.DrawImage(Esci.hover ? esciHover : esci, Esci.r);
 
             e.Graphics.DrawImage(titolo, Titolo.r);
+
             
         }
 
@@ -210,6 +216,7 @@ namespace GiocoDiCarte
                     {
                         pulsantiLivello[i].BackColor = Color.White;
                     }
+                    inMenu = false;
                 }
                 else if (Esci.r.Contains(e.Location))
                 {
@@ -463,7 +470,6 @@ namespace GiocoDiCarte
             {
                 pulsantiLivello[i].BackColor = Color.White;
             }
-            menuPanel.Invalidate();
         }
         
 
