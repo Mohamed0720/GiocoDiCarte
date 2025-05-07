@@ -4,13 +4,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 //-----------------------------------------------------------------------------------//
 namespace GiocoDiCarte
 {
@@ -45,7 +48,18 @@ namespace GiocoDiCarte
                 this.hover = false;
             }
         }
-        
+ 
+        //Classe Pulsanti Livello//--------------------------------------------------//
+        private class PulsanteLivello : Pulsante
+        {
+            public Bitmap sprite { get; set; }
+
+            public PulsanteLivello(Rectangle r, Bitmap sprite) : base(r)
+            {
+                this.r = r;
+                this.sprite = sprite;
+            }
+        }
         
         //Variabili generali//-------------------------------------------------------//
         private bool inGame = false;
@@ -77,6 +91,9 @@ namespace GiocoDiCarte
         private Pulsante Gioca;
         private Pulsante Esci;
         private Pulsante Titolo;
+        //Oggetti Pulsante nella selezione livelli
+        private Pulsante Livelli;
+        private List<PulsanteLivello> pulsantiLivello = new List<PulsanteLivello>();
 
         //Liste per tenere le carte//
         List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Turchese", "Viola", "Fuoco", "Acqua", "Sole" };
@@ -90,7 +107,6 @@ namespace GiocoDiCarte
         private int condVittoria = 0;
         private int livelliSbloccati = 9;
         private int livelloSelezionato;
-        private List<Button> pulsantiLivello = new List<Button>();
         //Variabili booleane per altro
         private bool pausaClick = false;
 
@@ -149,9 +165,21 @@ namespace GiocoDiCarte
             Titolo = new Pulsante(r);
 
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
-            pulsantiLivello.AddRange(new List<Button> { livello1, livello2, livello3, livello4, livello5, livello6, livello7, livello8, livello9});
+            genLivelli();
+
+            foreach (Control c in this.Controls)
+            {
+                if (c is Panel)
+                {
+                    typeof(Panel).InvokeMember("DoubleBuffered",
+                        System.Reflection.BindingFlags.SetProperty |
+                        System.Reflection.BindingFlags.Instance |
+                        System.Reflection.BindingFlags.NonPublic,
+                        null, c, new object[] { true });
+                }
+            }
             Timer timer = new Timer();
-            timer.Interval = 32;
+            timer.Interval = 64;
             timer.Tick += ridisegno;
             timer.Start();
 
@@ -182,7 +210,13 @@ namespace GiocoDiCarte
                     gamePanel.Invalidate(carte[i].rect);
                 }
             }
-            
+            else if (inLevels) {
+                for(int i = 0; i < 9; i++)
+                {
+                    levelPanel.Invalidate(pulsantiLivello[i].r);
+                }
+            }
+
         }
 
 //-----------------------------------------#/MENU\#------------------------------------------\\
@@ -212,10 +246,10 @@ namespace GiocoDiCarte
                     gamePanel.Hide();
                     levelPanel.Show();
 
-                    for (int i = 0; i < livelliSbloccati; i++)
+                    /**for (int i = 0; i < livelliSbloccati; i++)
                     {
-                        pulsantiLivello[i].BackColor = Color.White;
-                    }
+                        pulsantiLivello[i].sprite = pulsantiLivello.spriteBloccata;
+                    }**/
                     inMenu = false;
                 }
                 else if (Esci.r.Contains(e.Location))
@@ -250,6 +284,31 @@ namespace GiocoDiCarte
 
 //------------------------------------#/SELEZIONE LIVELLI\#---------------------------------------\\
 
+        //Generazione  tasti livello//-----------------------------------------------//
+        private void genLivelli()
+        {
+            var tmp = new Bitmap("Sprite/livelli/livello1.png");
+
+            int screenW = this.Width;
+            int screenH = this.Height;
+
+            int padding = 40;
+
+            int startX = screenW / 2 - tmp.Width/2 * 3 - padding;
+            int startY = screenH / 2 - tmp.Height/2 * 3 - padding;
+
+            for(int i = 0;i < 3; i++)
+            {
+                for(int j = 0;j < 3; j++)
+                {
+                    PulsanteLivello livello = new PulsanteLivello(new Rectangle(startX + tmp.Width * i + padding * i, startY + tmp.Height * j + padding * j, tmp.Width, tmp.Height), tmp);
+                    pulsantiLivello.Add(livello);
+                }
+            }
+
+            
+        }
+
         //Quando il mouse clicca sul pannello dei livelli//--------------------------//
         private void levelPanel_MouseClick(object sender, MouseEventArgs e)
         {
@@ -262,8 +321,17 @@ namespace GiocoDiCarte
 
         }
 
+        //Ridisegno del pannello selezione livelli//---------------------------------//
+        private void levelPanel_Paint(object sender, PaintEventArgs e)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                e.Graphics.DrawImage(pulsantiLivello[i].sprite, pulsantiLivello[i].r);
+            }
+        }
 
-//------------------------------------------#/GIOCO\#---------------------------------------\\
+
+        //------------------------------------------#/GIOCO\#---------------------------------------\\
 
         //Funzione di generazione//--------------------------------------------------//
         private void generaCarte(int livello)
@@ -360,6 +428,7 @@ namespace GiocoDiCarte
             condVittoria = 0;
             carte.Clear();
             menuPanel.Invalidate();
+            inMenu = true;
         }
 
         //Funzione chiamata ad ogni ridisegno del pannello di gioco//----------------//
@@ -378,7 +447,7 @@ namespace GiocoDiCarte
                         e.Graphics.DrawImage(retroCarta, carte[i].rect);
                     }
                 }
-                
+
             }
             
         }
@@ -465,13 +534,16 @@ namespace GiocoDiCarte
             menuPanel.Show();
             victoryPanel.Hide();
             carte.Clear();
+            inMenu = true;
 
-            for (int i = 0; i < livelliSbloccati; i++)
+            /**for (int i = 0; i < livelliSbloccati; i++)
             {
-                pulsantiLivello[i].BackColor = Color.White;
-            }
+                pulsantiLivello[i].sprite = spriteBloccata;
+            }**/
         }
-        
+
+//------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
+
 
 //------------------------------------------LIVELLI------------------------------------------//
 
