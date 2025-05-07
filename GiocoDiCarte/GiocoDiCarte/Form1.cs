@@ -251,6 +251,7 @@ namespace GiocoDiCarte
                         pulsantiLivello[i].sprite = pulsantiLivello.spriteBloccata;
                     }**/
                     inMenu = false;
+                    inLevels = true;
                 }
                 else if (Esci.r.Contains(e.Location))
                 {
@@ -314,11 +315,11 @@ namespace GiocoDiCarte
         {
             if (inLevels)
             {
-                foreach (var level in pulsantiLivello) {
-                    if (level.r.Contains(e.Location))
+                for (int i = 0; i < 9; i++) {
+                    if (pulsantiLivello[i].r.Contains(e.Location))
                     {
-                        livelloSelezionato = pulsantiLivello.IndexOf(level)+1; 
-                        if(livelliSbloccati <= livelloSelezionato)
+                        livelloSelezionato = i+1; 
+                        if(livelliSbloccati >= livelloSelezionato)
                         {
                             generaCarte(livelloSelezionato);
                             gamePanel.Show();
