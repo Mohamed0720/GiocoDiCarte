@@ -327,6 +327,10 @@ namespace GiocoDiCarte
                             gamePanel.Show();
                             levelPanel.Hide();
                         }
+                        else
+                        {
+                            MessageBox.Show("Livello non ancora sbloccato!");
+                        }
                     }
                 }
             }
