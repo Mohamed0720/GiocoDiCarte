@@ -312,7 +312,21 @@ namespace GiocoDiCarte
         //Quando il mouse clicca sul pannello dei livelli//--------------------------//
         private void levelPanel_MouseClick(object sender, MouseEventArgs e)
         {
-
+            if (inLevels)
+            {
+                foreach (var level in pulsantiLivello) {
+                    if (level.r.Contains(e.Location))
+                    {
+                        livelloSelezionato = pulsantiLivello.IndexOf(level)+1; 
+                        if(livelliSbloccati <= livelloSelezionato)
+                        {
+                            generaCarte(livelloSelezionato);
+                            gamePanel.Show();
+                            levelPanel.Hide();
+                        }
+                    }
+                }
+            }
         }
 
         //Quando il mouse si muove mentre è nel pannello dei livelli//---------------//
@@ -331,7 +345,7 @@ namespace GiocoDiCarte
         }
 
 
-        //------------------------------------------#/GIOCO\#---------------------------------------\\
+//------------------------------------------#/GIOCO\#---------------------------------------\\
 
         //Funzione di generazione//--------------------------------------------------//
         private void generaCarte(int livello)
