@@ -68,23 +68,23 @@ namespace GiocoDiCarte
         private bool inVictory = false;
 
         //Le Bitmap//
-        private Bitmap retroCarta = new Bitmap("Sprite/retroCarta.png");
-        private Bitmap cartaArancio = new Bitmap("Sprite/cartaArancio.png");
-        private Bitmap cartaRosso = new Bitmap("Sprite/cartaRosso.png");
-        private Bitmap cartaBlu = new Bitmap("Sprite/cartaBlu.png");
-        private Bitmap cartaVerde = new Bitmap("Sprite/cartaVerde.png");
-        private Bitmap cartaGiallo = new Bitmap("Sprite/cartaGiallo.png");
-        private Bitmap cartaTurchese = new Bitmap("Sprite/cartaTurchese.png");
-        private Bitmap cartaViola = new Bitmap("Sprite/cartaViola.png");
-        private Bitmap cartaFuoco = new Bitmap("Sprite/cartaFuoco.png");
-        private Bitmap cartaAcqua = new Bitmap("Sprite/cartaAcqua.png");
-        private Bitmap cartaSole = new Bitmap("Sprite/cartaSole.png");
+        private Bitmap retroCarta = new Bitmap("Sprite/carte/retroCarta.png");
+        private Bitmap cartaArancio = new Bitmap("Sprite/carte/cartaArancio.png");
+        private Bitmap cartaRosso = new Bitmap("Sprite/carte/cartaRosso.png");
+        private Bitmap cartaBlu = new Bitmap("Sprite/carte/cartaBlu.png");
+        private Bitmap cartaVerde = new Bitmap("Sprite/carte/cartaVerde.png");
+        private Bitmap cartaGiallo = new Bitmap("Sprite/carte/cartaGiallo.png");
+        private Bitmap cartaTurchese = new Bitmap("Sprite/carte/cartaTurchese.png");
+        private Bitmap cartaViola = new Bitmap("Sprite/carte/cartaViola.png");
+        private Bitmap cartaFuoco = new Bitmap("Sprite/carte/cartaFuoco.png");
+        private Bitmap cartaAcqua = new Bitmap("Sprite/carte/cartaAcqua.png");
+        private Bitmap cartaSole = new Bitmap("Sprite/carte/cartaSole.png");
 
         private Bitmap titolo = new Bitmap("Sprite/titolo.png");
-        private Bitmap gioca = new Bitmap("Sprite/gioca.png");
-        private Bitmap giocaHover = new Bitmap("Sprite/giocaHover.png");
-        private Bitmap esci = new Bitmap("Sprite/esci.png");
-        private Bitmap esciHover = new Bitmap("Sprite/esciHover.png");
+        private Bitmap gioca = new Bitmap("Sprite/Pulsanti/gioca.png");
+        private Bitmap giocaHover = new Bitmap("Sprite/Pulsanti/giocaHover.png");
+        private Bitmap esci = new Bitmap("Sprite/Pulsanti/esci.png");
+        private Bitmap esciHover = new Bitmap("Sprite/Pulsanti/esciHover.png");
         private Bitmap sfondo = new Bitmap("Sprite/sfondo.png");
 
         //Gli Oggetti Pulsante nel Main//
