@@ -30,19 +30,20 @@
         {
             this.menuPanel = new System.Windows.Forms.Panel();
             this.victoryPanel = new System.Windows.Forms.Panel();
+            this.labelPunteggio = new System.Windows.Forms.Label();
             this.labelTempoRimasto = new System.Windows.Forms.Label();
             this.labelMosse = new System.Windows.Forms.Label();
-            this.tornaMenu = new System.Windows.Forms.Button();
-            this.titoloVittoria = new System.Windows.Forms.Label();
             this.gamePanel = new System.Windows.Forms.Panel();
             this.labelTornaMenu = new System.Windows.Forms.Label();
             this.labelTempo = new System.Windows.Forms.Label();
             this.label_nMosse = new System.Windows.Forms.Label();
             this.levelPanel = new System.Windows.Forms.Panel();
             this.gameoverPanel = new System.Windows.Forms.Panel();
-            this.labelPunteggio = new System.Windows.Forms.Label();
+            this.impostazPanel = new System.Windows.Forms.Panel();
+            this.riprendi = new System.Windows.Forms.Label();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
+            this.impostazPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuPanel
@@ -63,12 +64,21 @@
             this.victoryPanel.Controls.Add(this.labelPunteggio);
             this.victoryPanel.Controls.Add(this.labelTempoRimasto);
             this.victoryPanel.Controls.Add(this.labelMosse);
-            this.victoryPanel.Controls.Add(this.tornaMenu);
-            this.victoryPanel.Controls.Add(this.titoloVittoria);
             this.victoryPanel.Location = new System.Drawing.Point(12, 68);
             this.victoryPanel.Name = "victoryPanel";
-            this.victoryPanel.Size = new System.Drawing.Size(1263, 539);
+            this.victoryPanel.Size = new System.Drawing.Size(1263, 590);
             this.victoryPanel.TabIndex = 1;
+            this.victoryPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.victoryPanel_Paint);
+            this.victoryPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.victoryPanel_MouseClick);
+            // 
+            // labelPunteggio
+            // 
+            this.labelPunteggio.BackColor = System.Drawing.Color.Transparent;
+            this.labelPunteggio.Location = new System.Drawing.Point(418, 196);
+            this.labelPunteggio.Name = "labelPunteggio";
+            this.labelPunteggio.Size = new System.Drawing.Size(842, 68);
+            this.labelPunteggio.TabIndex = 6;
+            this.labelPunteggio.Text = "label1";
             // 
             // labelTempoRimasto
             // 
@@ -90,38 +100,16 @@
             this.labelMosse.TabIndex = 4;
             this.labelMosse.Text = "label6";
             // 
-            // tornaMenu
-            // 
-            this.tornaMenu.BackColor = System.Drawing.Color.LimeGreen;
-            this.tornaMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tornaMenu.Location = new System.Drawing.Point(264, 401);
-            this.tornaMenu.Name = "tornaMenu";
-            this.tornaMenu.Size = new System.Drawing.Size(404, 98);
-            this.tornaMenu.TabIndex = 1;
-            this.tornaMenu.Text = "Torna Al Menu Principale";
-            this.tornaMenu.UseVisualStyleBackColor = false;
-            this.tornaMenu.Click += new System.EventHandler(this.tornaMenu_Click);
-            // 
-            // titoloVittoria
-            // 
-            this.titoloVittoria.AutoSize = true;
-            this.titoloVittoria.Font = new System.Drawing.Font("Microsoft New Tai Lue", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titoloVittoria.Location = new System.Drawing.Point(354, 27);
-            this.titoloVittoria.Name = "titoloVittoria";
-            this.titoloVittoria.Size = new System.Drawing.Size(230, 63);
-            this.titoloVittoria.TabIndex = 0;
-            this.titoloVittoria.Text = "Hai vinto!";
-            // 
             // gamePanel
             // 
             this.gamePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.gamePanel.AutoSize = true;
-            this.gamePanel.Controls.Add(this.labelTornaMenu);
+            this.gamePanel.Controls.Add(this.impostazPanel);
             this.gamePanel.Controls.Add(this.labelTempo);
             this.gamePanel.Controls.Add(this.label_nMosse);
-            this.gamePanel.Location = new System.Drawing.Point(933, 68);
+            this.gamePanel.Location = new System.Drawing.Point(295, 1);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(725, 479);
+            this.gamePanel.Size = new System.Drawing.Size(977, 479);
             this.gamePanel.TabIndex = 3;
             this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
             this.gamePanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
@@ -131,7 +119,7 @@
             // 
             this.labelTornaMenu.AutoSize = true;
             this.labelTornaMenu.BackColor = System.Drawing.Color.Transparent;
-            this.labelTornaMenu.Location = new System.Drawing.Point(14, 466);
+            this.labelTornaMenu.Location = new System.Drawing.Point(76, 89);
             this.labelTornaMenu.Name = "labelTornaMenu";
             this.labelTornaMenu.Size = new System.Drawing.Size(75, 13);
             this.labelTornaMenu.TabIndex = 5;
@@ -179,14 +167,25 @@
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
             this.gameoverPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseClick);
             // 
-            // labelPunteggio
+            // impostazPanel
             // 
-            this.labelPunteggio.BackColor = System.Drawing.Color.Transparent;
-            this.labelPunteggio.Location = new System.Drawing.Point(418, 196);
-            this.labelPunteggio.Name = "labelPunteggio";
-            this.labelPunteggio.Size = new System.Drawing.Size(842, 68);
-            this.labelPunteggio.TabIndex = 6;
-            this.labelPunteggio.Text = "label1";
+            this.impostazPanel.Controls.Add(this.riprendi);
+            this.impostazPanel.Controls.Add(this.labelTornaMenu);
+            this.impostazPanel.Location = new System.Drawing.Point(298, 138);
+            this.impostazPanel.Name = "impostazPanel";
+            this.impostazPanel.Size = new System.Drawing.Size(235, 131);
+            this.impostazPanel.TabIndex = 6;
+            // 
+            // riprendi
+            // 
+            this.riprendi.AutoSize = true;
+            this.riprendi.BackColor = System.Drawing.Color.Transparent;
+            this.riprendi.Location = new System.Drawing.Point(91, 36);
+            this.riprendi.Name = "riprendi";
+            this.riprendi.Size = new System.Drawing.Size(46, 13);
+            this.riprendi.TabIndex = 6;
+            this.riprendi.Text = "Riprendi";
+            this.riprendi.Click += new System.EventHandler(this.riprendi_Click);
             // 
             // Form1
             // 
@@ -204,9 +203,10 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.victoryPanel.ResumeLayout(false);
-            this.victoryPanel.PerformLayout();
             this.gamePanel.ResumeLayout(false);
             this.gamePanel.PerformLayout();
+            this.impostazPanel.ResumeLayout(false);
+            this.impostazPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,8 +216,6 @@
         private System.Windows.Forms.Panel menuPanel;
         private System.Windows.Forms.Panel gamePanel;
         private System.Windows.Forms.Panel victoryPanel;
-        private System.Windows.Forms.Label titoloVittoria;
-        private System.Windows.Forms.Button tornaMenu;
         private System.Windows.Forms.Panel levelPanel;
         private System.Windows.Forms.Label label_nMosse;
         private System.Windows.Forms.Panel gameoverPanel;
@@ -226,6 +224,8 @@
         private System.Windows.Forms.Label labelTempoRimasto;
         private System.Windows.Forms.Label labelTornaMenu;
         private System.Windows.Forms.Label labelPunteggio;
+        private System.Windows.Forms.Panel impostazPanel;
+        private System.Windows.Forms.Label riprendi;
     }
 }
 

@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Channels;
 using System.Text;
@@ -69,6 +70,7 @@ namespace GiocoDiCarte
         private bool inLevels = false;
         private bool inVictory = false;
         private bool inGameover = false;
+        private bool inImpostaz = false;
 
         //Le Bitmap//
         private Bitmap retroCarta = new Bitmap("Sprite/carte/retroCarta.png");
@@ -92,6 +94,9 @@ namespace GiocoDiCarte
         private Bitmap livelli = new Bitmap("Sprite/livelli.png");
         private Bitmap gameover = new Bitmap("Sprite/gameover.png");
         private Bitmap tornaAlMenu = new Bitmap("Sprite/tornaAlMenu.png");
+        private Bitmap riquadro = new Bitmap("Sprite/riquadro.png");
+        private Bitmap livelloCompletato = new Bitmap("Sprite/livelloCompletato.png");
+        private Bitmap impostazioni = new Bitmap("Sprite/impostazioni.png");
 
         Rectangle titoloR;
         Rectangle livelliR;
@@ -102,8 +107,11 @@ namespace GiocoDiCarte
         private Pulsante Esci;
         //Oggetti Pulsante nella selezione livelli//
         private List<PulsanteLivello> pulsantiLivello = new List<PulsanteLivello>();
-        //Oggetto tornaMenu//
-        private Pulsante tornaMenuPulsante;
+        //Oggetti tornaMenu//
+        private Pulsante tornaMenuGameOver;
+        private Pulsante tornaMenuVittoria;
+        //Pulsante impostazioni//
+        private Pulsante Impostazioni;
 
         //Liste per tenere le carte//
         List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Turchese", "Viola", "Fuoco", "Acqua", "Sole" };
@@ -131,6 +139,7 @@ namespace GiocoDiCarte
 
 
 
+
         //--------------------------------------#/GENERALI\#-----------------------------------------\\
 
         //Centra i Pannelli//--------------------------------------------------------//
@@ -153,6 +162,7 @@ namespace GiocoDiCarte
             centraPannello(gamePanel);
             centraPannello(victoryPanel);
             centraPannello(gameoverPanel);
+            centraPannello(impostazPanel);
 
             //Fa sì che i pannelli riempano tutto lo spazio disponibile nella finestra//
             menuPanel.Dock = DockStyle.Fill;
@@ -189,10 +199,20 @@ namespace GiocoDiCarte
             r = new Rectangle(esciX, esciY, esci.Width, esci.Height);
             Esci = new Pulsante(r);
 
-            int tornaMenuX = this.ClientSize.Width / 2 - tornaMenu.Width / 2;
-            int tornaMenuY = this.ClientSize.Height / 2 - tornaMenu.Height / 2;
-            r = new Rectangle(tornaMenuX, tornaMenuY, tornaAlMenu.Width, tornaAlMenu.Height);
-            tornaMenuPulsante = new Pulsante(r);
+            int tornaMenuGOX = this.ClientSize.Width / 2 - tornaAlMenu.Width / 2;
+            int tornaMenuGOY = this.ClientSize.Height / 2 - tornaAlMenu.Height / 2;
+            r = new Rectangle(tornaMenuGOX, tornaMenuGOY, tornaAlMenu.Width, tornaAlMenu.Height);
+            tornaMenuGameOver = new Pulsante(r);
+
+            int tornaMenuVX = this.ClientSize.Width / 2 - tornaAlMenu.Width / 2;
+            int tornaMenuVY = this.ClientSize.Height / 2 + tornaAlMenu.Height;
+            r = new Rectangle(tornaMenuVX, tornaMenuVY, tornaAlMenu.Width, tornaAlMenu.Height);
+            tornaMenuVittoria = new Pulsante(r);
+
+            int impostazioniX = 50;
+            int impostazioniY = this.ClientSize.Height - 100;
+            r = new Rectangle(impostazioniX, impostazioniY, impostazioni.Width, impostazioni.Height);
+            Impostazioni = new Pulsante(r);
 
             //Aggiunge le bitmap delle carte alla lista sprites//
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
@@ -221,9 +241,11 @@ namespace GiocoDiCarte
             
         }
 
+
         //Ridisegno pannelli ogni tot tempo//----------------------------------------//
         private void ridisegno(object sender, EventArgs e)
         {
+
             if (inMenu)
             {
                 if (Gioca.changed)
@@ -255,7 +277,13 @@ namespace GiocoDiCarte
             else if (inGameover)
             {
                 gameoverPanel.Invalidate(gameoverR);
+                gameoverPanel.Invalidate(tornaMenuGameOver.r);
             }
+            else if (inVictory)
+            {
+                victoryPanel.Invalidate(tornaMenuVittoria.r);
+            }
+
 
         }
 
@@ -264,10 +292,28 @@ namespace GiocoDiCarte
         //Funzione per ridisegno Main Menu//-----------------------------------------//
         private void menuPanel_Paint(object sender, PaintEventArgs e)
         {
+            if (Gioca.hover)
+            {
+                e.Graphics.DrawImage(giocaHover, Gioca.r);
+                this.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                e.Graphics.DrawImage(gioca, Gioca.r);
+                this.Cursor = Cursors.Default;
+            }
 
-            e.Graphics.DrawImage(Gioca.hover ? giocaHover : gioca, Gioca.r);
+            if (Esci.hover)
+            {
+                e.Graphics.DrawImage(esciHover, Esci.r);
+                this.Cursor = Cursors.Hand;
+            }
+            else
+            { 
+                e.Graphics.DrawImage(esci, Esci.r);
+                this.Cursor = Cursors.Default;
+            }
             
-            e.Graphics.DrawImage(Esci.hover ? esciHover : esci, Esci.r);
 
             titoloR = new Rectangle(this.ClientSize.Width / 2 - titolo.Width / 2, this.ClientSize.Height / 2 - titolo.Height * 2, titolo.Width, titolo.Height);
             e.Graphics.DrawImage(titolo, titoloR);
@@ -282,6 +328,7 @@ namespace GiocoDiCarte
             {
                 if (Gioca.r.Contains(e.Location))
                 {
+                    impostazPanel.Hide();
                     menuPanel.Hide();
                     victoryPanel.Hide();
                     gamePanel.Hide();
@@ -373,8 +420,6 @@ namespace GiocoDiCarte
                             labelTempo.ForeColor = Color.White;                           
                             label_nMosse.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular); ;
                             label_nMosse.ForeColor = Color.White;
-                            labelTornaMenu.Font= new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
-                            labelTornaMenu.ForeColor= Color.White;
 
 
                             generaCarte(livelloSelezionato);
@@ -577,8 +622,16 @@ namespace GiocoDiCarte
             inGame = true;
         }
 
+        //Tasto riprendi partita//
+        private void riprendi_Click(object sender, EventArgs e)
+        {
+            timergioco.Start();
+            inImpostaz = false;
+            inGame = true;
+            impostazPanel.Hide();
+        }
+
         //Tasto Torna al Menu Principale//-------------------------------------------//
-        
         private void labelTornaMenu_Click(object sender, EventArgs e)
         {
             timergioco.Stop();
@@ -609,8 +662,9 @@ namespace GiocoDiCarte
                     }
                 }
 
+                e.Graphics.DrawImage(impostazioni, Impostazioni.r);
+
             }
-            
         }
 
         //Quando il mouse sta su una carta//-----------------------------------------//
@@ -622,11 +676,16 @@ namespace GiocoDiCarte
                 {
                     if (carte[i].rect.Contains(e.Location))
                     {
-
+                    }
+                    else
+                    {
                     }
                 }
             }
+
+
         }
+
 
         //Quando si preme col mouse su una carta//-----------------------------------//
         private async void panelGame_MouseClick(object sender, MouseEventArgs e)
@@ -669,6 +728,7 @@ namespace GiocoDiCarte
                             if (condVittoria >= livelloSelezionato + 1)
                             {
                                 inGame = false;
+                                inVictory = true;
                                 gamePanel.Hide();
                                 
                                 
@@ -683,23 +743,21 @@ namespace GiocoDiCarte
                                 labelMosse.TextAlign = ContentAlignment.MiddleCenter;
                                 labelMosse.Location = new Point((this.ClientSize.Width - labelMosse.Width) / 2, labelMosse.Location.Y);
                                 labelMosse.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
-                                labelMosse.ForeColor = Color.White;
+                                labelMosse.ForeColor = Color.Black;
 
                                 labelTempoRimasto.Text = "secondi rimasti: "+secondiTimer.ToString();
                                 labelTempoRimasto.TextAlign = ContentAlignment.MiddleCenter;
                                 labelTempoRimasto.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
                                 labelTempoRimasto.Location = new Point((this.ClientSize.Width - labelTempoRimasto.Width) / 2, labelTempoRimasto.Location.Y);
-                                labelTempoRimasto.ForeColor = Color.White;
-
-                                tornaMenu.Font= new Font(kiwiSoda.FontFamily, 30, FontStyle.Regular);
-                                tornaMenu.Location= new Point((this.ClientSize.Width - tornaMenu.Width) / 2, tornaMenu.Location.Y);
+                                labelTempoRimasto.ForeColor = Color.Black;
 
                                 punteggio = nmosse * 10 + secondiTimer * 3;
                                 labelPunteggio.Text= "punteggio: " + punteggio.ToString();
                                 labelPunteggio.TextAlign = ContentAlignment.MiddleCenter;
                                 labelPunteggio.Location= new Point((this.ClientSize.Width - labelPunteggio.Width) / 2,labelPunteggio.Location.Y);
-                                labelPunteggio.ForeColor = Color.White;
+                                labelPunteggio.ForeColor = Color.Black;
                                 labelPunteggio.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+
 
 
                                 victoryPanel.Show();
@@ -722,6 +780,29 @@ namespace GiocoDiCarte
 
                     break;
                 }
+            }
+
+            if (Impostazioni.r.Contains(e.Location))
+            {
+                inGame = false;
+                inImpostaz = true;
+                timergioco.Stop();
+                impostazPanel.Show();
+                impostazPanel.Width = riquadro.Width;
+                impostazPanel.Height = riquadro.Height;
+                centraPannello(impostazPanel);
+                impostazPanel.BackgroundImage = riquadro;
+
+                riprendi.Text = "Riprendi";
+                riprendi.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                riprendi.Location = new Point(impostazPanel.Width/2 - riprendi.Width/2, impostazPanel.Height/2 - riprendi.Height/2*3 );
+                riprendi.ForeColor = Color.Black;
+
+                labelTornaMenu.Text = "Torna Al Menu";
+                labelTornaMenu.Location = new Point(impostazPanel.Width / 2 - labelTornaMenu.Width*2, impostazPanel.Height / 2 + labelTornaMenu.Height / 2*3);
+                labelTornaMenu.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                labelTornaMenu.ForeColor = Color.Black;
+
             }
 
         }
@@ -756,27 +837,31 @@ namespace GiocoDiCarte
 
         }
 
-        private void gameoverPanel_Paint(object sender, PaintEventArgs e)
-        {
-            int centerW = this.Width/2;
-            int centerH = this.Height/2;
 
-            gameoverR = new Rectangle(centerW - gameover.Width / 2, centerH - gameover.Height * 2, gameover.Width, gameover.Height);
-
-            e.Graphics.DrawImage(gameover, gameoverR);
-
-            e.Graphics.DrawImage(tornaAlMenu, tornaMenuPulsante.r);
-        }
 
 
 
 //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
+        //Ridisegno del pannello di GameOver//
+        private void gameoverPanel_Paint(object sender, PaintEventArgs e)
+        {
+            int centerW = this.Width / 2;
+            int centerH = this.Height / 2;
+
+            gameoverR = new Rectangle(centerW - gameover.Width / 2, centerH - gameover.Height * 2, gameover.Width, gameover.Height);
+
+            e.Graphics.DrawImage(gameover, gameoverR);
+
+            e.Graphics.DrawImage(tornaAlMenu, tornaMenuGameOver.r);
+        }
+
+        //Risposta al click del mouse nel pannello di Game Over//
         private void gameoverPanel_MouseClick(object sender, MouseEventArgs e)
         {
             if (inGameover)
             {
-                if (tornaMenuPulsante.r.Contains(e.Location))
+                if (tornaMenuGameOver.r.Contains(e.Location))
                 {   
                     gameoverPanel.Hide();
                     menuPanel.Show();
@@ -787,6 +872,39 @@ namespace GiocoDiCarte
                     
             }
         }
+
+        //Ridisegno del pannello di vittoria//
+        private void victoryPanel_Paint(object sender, PaintEventArgs e)
+        {
+            int centerW = this.Width / 2;
+            int centerH = this.Height / 2;
+
+            int riqW = riquadro.Width;
+            int riqH = riquadro.Height;
+            e.Graphics.DrawImage(riquadro, new Rectangle(centerW - riqW / 2 - 10, centerH - riqH / 5 * 2, riqW, riqH));
+
+            int livW = livelloCompletato.Width;
+            int LivH = livelloCompletato.Height;
+            e.Graphics.DrawImage(livelloCompletato, new Rectangle(centerW - livW/2, centerH - LivH/2*3, livW, LivH));
+
+            e.Graphics.DrawImage(tornaAlMenu, tornaMenuVittoria.r);
+        }
+
+        private void victoryPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!inVictory)
+                return;
+
+            if (tornaMenuVittoria.r.Contains(e.Location))
+            {
+                gameoverPanel.Hide();
+                menuPanel.Show();
+                inGameover = false;
+                inMenu = true;
+            }
+        }
+
+        
     }
 
 
