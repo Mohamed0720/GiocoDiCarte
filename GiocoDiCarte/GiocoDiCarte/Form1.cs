@@ -1,10 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Channels;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 //-----------------------------------------------------------------------------------//
 namespace GiocoDiCarte
 {
@@ -39,7 +50,7 @@ namespace GiocoDiCarte
                 this.hover = false;
             }
         }
-
+ 
         //Classe Pulsanti Livello//--------------------------------------------------//
         private class PulsanteLivello : Pulsante
         {
@@ -109,6 +120,7 @@ namespace GiocoDiCarte
         private int nmosse;
         private int secondiTimer;
         Timer timergioco = new Timer();
+        private int punteggio = 0;
         //Variabili booleane per altro
         private bool pausaClick = false;
 
@@ -131,7 +143,7 @@ namespace GiocoDiCarte
 
         //Funzione chiamata all'avvio del programma//--------------------------------//
         public Form1()
-        {
+        {                  
             //Inizializza il form//
             InitializeComponent();
 
@@ -152,7 +164,7 @@ namespace GiocoDiCarte
             //Aggiunge lo sfondo ad ogni pannello//
             foreach (Control ctrl in this.Controls)
             {
-                if (ctrl is Panel panel)
+                if(ctrl is Panel panel)
                 {
                     panel.BackgroundImage = sfondo;
                     panel.BackgroundImageLayout = ImageLayout.Tile;
@@ -183,8 +195,8 @@ namespace GiocoDiCarte
             tornaMenuPulsante = new Pulsante(r);
 
             //Aggiunge le bitmap delle carte alla lista sprites//
-            sprites.AddRange(new List<Bitmap> { cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole });
-
+            sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
+            
             //Richiama la funzione che genera i pulsanti di selezione livello//
             genLivelli();
 
@@ -206,7 +218,7 @@ namespace GiocoDiCarte
             fps.Interval = 64;
             fps.Tick += ridisegno;
             fps.Start();
-
+            
         }
 
         //Ridisegno pannelli ogni tot tempo//----------------------------------------//
@@ -234,9 +246,8 @@ namespace GiocoDiCarte
                     gamePanel.Invalidate(carte[i].rect);
                 }
             }
-            else if (inLevels)
-            {
-                for (int i = 0; i < 9; i++)
+            else if (inLevels) {
+                for(int i = 0; i < 9; i++)
                 {
                     levelPanel.Invalidate(pulsantiLivello[i].r);
                 }
@@ -248,20 +259,20 @@ namespace GiocoDiCarte
 
         }
 
-        //-----------------------------------------#/MENU\#------------------------------------------\\
+//-----------------------------------------#/MENU\#------------------------------------------\\
 
         //Funzione per ridisegno Main Menu//-----------------------------------------//
         private void menuPanel_Paint(object sender, PaintEventArgs e)
         {
 
             e.Graphics.DrawImage(Gioca.hover ? giocaHover : gioca, Gioca.r);
-
+            
             e.Graphics.DrawImage(Esci.hover ? esciHover : esci, Esci.r);
 
             titoloR = new Rectangle(this.ClientSize.Width / 2 - titolo.Width / 2, this.ClientSize.Height / 2 - titolo.Height * 2, titolo.Width, titolo.Height);
             e.Graphics.DrawImage(titolo, titoloR);
 
-
+            
         }
 
         //Funzione di rilevamento click nel main Menu//------------------------------//
@@ -313,7 +324,7 @@ namespace GiocoDiCarte
 
         }
 
-        //------------------------------------#/SELEZIONE LIVELLI\#---------------------------------------\\
+//------------------------------------#/SELEZIONE LIVELLI\#---------------------------------------\\
 
         //Generazione  tasti livello//-----------------------------------------------//
         private void genLivelli()
@@ -326,12 +337,12 @@ namespace GiocoDiCarte
 
             int padding = 40;
 
-            int startX = screenW / 2 - tmp.Width / 2 * 3 - padding;
-            int startY = screenH / 2 - tmp.Height / 2 * 3 - padding;
+            int startX = screenW / 2 - tmp.Width/2 * 3 - padding;
+            int startY = screenH / 2 - tmp.Height/2 * 3 - padding;
 
-            for (int i = 0; i < 3; i++)
+            for(int i = 0;i < 3; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for(int j = 0;j < 3; j++)
                 {
                     PulsanteLivello livello = new PulsanteLivello(new Rectangle(startX + tmp.Width * j + padding * j, startY + tmp.Height * i + padding * i, tmp.Width, tmp.Height), tmp);
                     pulsantiLivello.Add(livello);
@@ -349,22 +360,21 @@ namespace GiocoDiCarte
         {
             if (inLevels)
             {
-                for (int i = 0; i < 9; i++)
-                {
+                for (int i = 0; i < 9; i++) {
                     if (pulsantiLivello[i].r.Contains(e.Location))
                     {
-                        livelloSelezionato = i + 1;
-                        if (livelliSbloccati >= livelloSelezionato)
+                        livelloSelezionato = i+1; 
+                        if(livelliSbloccati >= livelloSelezionato)
                         {
-                            nmosse = (livelloSelezionato + 1) * 2 + 5;
-                            label_nMosse.Text = "mosse: " + nmosse.ToString();
-
+                            nmosse = (livelloSelezionato + 1)*2+5;
+                            label_nMosse.Text = "mosse: "+nmosse.ToString();
+                           
                             labelTempo.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
-                            labelTempo.ForeColor = Color.White;
+                            labelTempo.ForeColor = Color.White;                           
                             label_nMosse.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular); ;
                             label_nMosse.ForeColor = Color.White;
-                            labelTornaMenu.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
-                            labelTornaMenu.ForeColor = Color.White;
+                            labelTornaMenu.Font= new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
+                            labelTornaMenu.ForeColor= Color.White;
 
 
                             generaCarte(livelloSelezionato);
@@ -372,7 +382,7 @@ namespace GiocoDiCarte
                             levelPanel.Hide();
 
                             secondiTimer = 100;
-                            labelTempo.Text = secondiTimer.ToString();
+                            labelTempo.Text=secondiTimer.ToString();
                             timergioco.Interval = 1000;
                             timergioco.Tick -= timer;
                             timergioco.Tick += timer;
@@ -407,7 +417,7 @@ namespace GiocoDiCarte
         }
 
 
-        //------------------------------------------#/GIOCO\#---------------------------------------\\
+//------------------------------------------#/GIOCO\#---------------------------------------\\
 
         //Funzione di generazione//--------------------------------------------------//
         private void generaCarte(int livello)
@@ -424,24 +434,23 @@ namespace GiocoDiCarte
 
             if (livello + 1 < 8)
             {
-                if (totaleCarte > 6 && totaleCarte % 4 == 0)
+                if (totaleCarte >6 && totaleCarte % 4 == 0)
                 {
                     righe = (int)Math.Ceiling((double)totaleCarte / 4);
-                }
-                else
+                } else
                 {
                     righe = (int)Math.Ceiling((double)totaleCarte / 6);
                 }
 
                 int colonne = totaleCarte <= 6 ? totaleCarte : totaleCarte / righe;
-
+            
                 int grigliaWidth = ((larghezzaCarta * colonne) + (padding * (colonne - 1)));
                 int grigliaHeight = (altezzaCarta * righe + padding * righe);
 
-                int startX = (screenWidth - grigliaWidth) / 2;
-                int startY = (screenHeight - grigliaHeight) / 2;
+                int startX = (screenWidth - grigliaWidth)/2;
+                int startY = (screenHeight - grigliaHeight)/2;
 
-
+            
                 for (int i = 0; i < righe; i++)
                 {
                     for (int j = 0; j < colonne; j++)
@@ -461,7 +470,7 @@ namespace GiocoDiCarte
                     carte.Add(new Carta(r));
                 }
             }
-            else if (livello + 1 == 8)
+            else if(livello + 1 == 8)
             {
                 righe = 4;
                 int colonne = 7;
@@ -471,13 +480,13 @@ namespace GiocoDiCarte
 
                 for (int i = 0; i < righe; i++)
                 {
-                    for (int j = 0; j < (colonne - i * 2); j++)
+                    for (int j = 0; j < (colonne-i*2); j++)
                     {
                         int startX = (screenWidth - grigliaWidth) / 2 + i * (larghezzaCarta + padding);
-                        int startY = (screenHeight - altezzaCarta - padding);
+                        int startY = (screenHeight - grigliaHeight) / 2;
 
                         int x = startX + j * (larghezzaCarta + padding);
-                        int y = startY - altezzaCarta * i - padding * i;
+                        int y = startY + altezzaCarta * i + padding * i;
 
                         Rectangle r = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
                         carte.Add(new Carta(r));
@@ -489,7 +498,7 @@ namespace GiocoDiCarte
                 righe = 3;
                 int colonne = 6;
 
-                int grigliaWidth = (larghezzaCarta * colonne) + (padding * (colonne - 1)) + 2 * (larghezzaCarta + padding);
+                int grigliaWidth = (larghezzaCarta * colonne) + (padding * (colonne - 1)) + 2*(larghezzaCarta + padding);
                 int grigliaHeight = altezzaCarta * righe + padding * righe;
 
                 for (int i = 0; i < righe; i++)
@@ -509,39 +518,26 @@ namespace GiocoDiCarte
             }
             else if (livello + 1 == 10)
             {
-                righe = 3;
-                int colonne = 5;
+                righe = 4;
+                int colonne = 7;
 
                 int grigliaWidth = ((larghezzaCarta * colonne) + (padding * (colonne - 1)));
                 int grigliaHeight = (altezzaCarta * righe + padding * righe);
 
-                int startX = (screenWidth - grigliaWidth) / 2;
-                int startY = (screenHeight - grigliaHeight) / 2;
-
                 for (int i = 0; i < righe; i++)
                 {
-                    for (int j = 0; j < colonne; j++)
+                    for (int j = 0; j < (colonne - i * 2); j++)
                     {
+                        int startX = (screenWidth - grigliaWidth) / 2 + i * (larghezzaCarta + padding);
+                        int startY = (screenHeight - grigliaHeight) / 2;
+
                         int x = startX + j * (larghezzaCarta + padding);
                         int y = startY + altezzaCarta * i + padding * i;
 
-                        Rectangle rct = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
-                        carte.Add(new Carta(rct));
+                        Rectangle r = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
+                        carte.Add(new Carta(r));
                     }
                 }
-
-                Rectangle r = new Rectangle(startX - larghezzaCarta - padding/2, startY + altezzaCarta / 2 + padding, larghezzaCarta, altezzaCarta);
-                carte.Add(new Carta(r));
-                r = new Rectangle(startX - larghezzaCarta - padding/2, startY + (altezzaCarta / 2) * 3 + padding * 2, larghezzaCarta, altezzaCarta);
-                carte.Add(new Carta(r));
-                r = new Rectangle(startX - 2 * larghezzaCarta - padding, startY + (altezzaCarta / 2) * 2 + padding/2 * 3, larghezzaCarta, altezzaCarta);
-                carte.Add(new Carta(r));
-
-                r = new Rectangle(startX + 5 * (larghezzaCarta + padding) - padding/2, startY + altezzaCarta / 2 + padding, larghezzaCarta, altezzaCarta);
-                carte.Add(new Carta(r));
-                r = new Rectangle(startX + 5 * (larghezzaCarta + padding) - padding/2, startY + (altezzaCarta / 2) * 3 + padding*2, larghezzaCarta, altezzaCarta);
-                carte.Add(new Carta(r));
-
             }
 
             //Generazione casuale dell'ordine delle carte//--------------------------//
@@ -551,14 +547,14 @@ namespace GiocoDiCarte
             coloriDisponibili.AddRange(colori.Take(livello + 1));
             coloriDisponibili.AddRange(colori.Take(livello + 1));
 
-            for (int i = 0; i < livello + 1; i++)
+            for (int i = 0; i < livello+1; i++)
             {
                 dictColori.Add(coloriDisponibili[i], sprites[i]);
             }
 
             Random oggettoRand = new Random();
 
-            for (int i = coloriDisponibili.Count - 1; i > 0; i--)
+            for(int i = coloriDisponibili.Count - 1; i > 0; i--)
             {
                 int m = oggettoRand.Next(i + 1);
 
@@ -567,7 +563,7 @@ namespace GiocoDiCarte
                 coloriDisponibili[i] = temp;
             }
 
-            for (int i = 0; i < (livello + 1) * 2; i++)
+            for(int i = 0; i < (livello+1)*2; i++)
             {
                 carte[i].colore = coloriDisponibili[i];
                 carte[i].sprite = dictColori[coloriDisponibili[i]];
@@ -576,13 +572,13 @@ namespace GiocoDiCarte
 
             coloriDisponibili.Clear();
             dictColori.Clear();
-
+            
 
             inGame = true;
         }
 
         //Tasto Torna al Menu Principale//-------------------------------------------//
-
+        
         private void labelTornaMenu_Click(object sender, EventArgs e)
         {
             timergioco.Stop();
@@ -593,7 +589,7 @@ namespace GiocoDiCarte
             carte.Clear();
             menuPanel.Invalidate();
             inMenu = true;
-
+            
         }
 
         //Funzione chiamata ad ogni ridisegno del pannello di gioco//----------------//
@@ -601,7 +597,7 @@ namespace GiocoDiCarte
         {
             if (inGame)
             {
-                for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
+                for(int i = 0; i < (livelloSelezionato +1)*2; i++)
                 {
                     if (carte[i].girato)
                     {
@@ -614,7 +610,7 @@ namespace GiocoDiCarte
                 }
 
             }
-
+            
         }
 
         //Quando il mouse sta su una carta//-----------------------------------------//
@@ -622,7 +618,7 @@ namespace GiocoDiCarte
         {
             if (inGame)
             {
-                for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
+                for (int i = 0; i < (livelloSelezionato+1)*2; i++)
                 {
                     if (carte[i].rect.Contains(e.Location))
                     {
@@ -649,22 +645,21 @@ namespace GiocoDiCarte
                         carte[i].girato = true;
                         primaCarta = true;
                         cartaGirata = carte[i];
-
+                       
                     }
                     else
                     {
                         carte[i].girato = true;
                         pausaClick = true;
                         nmosse--;
-                        label_nMosse.Text = "mosse: " + nmosse.ToString();
-
+                        label_nMosse.Text = "mosse: "+nmosse.ToString();
+                        
                         if (nmosse == 0)
                         {
                             gameoverPanel.Show();
                             gameoverPanel.BringToFront();
                             gamePanel.Hide();
                             timergioco.Stop();
-                            inGameover = true;
                         }
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
@@ -674,15 +669,38 @@ namespace GiocoDiCarte
                             {
                                 inGame = false;
                                 gamePanel.Hide();
-
-
-                                if (livelliSbloccati < 9)
+                                
+                                
+                                if(livelliSbloccati < 9)
                                 {
                                     livelliSbloccati += 1;
                                 }
                                 timergioco.Stop();
-                                labelMosse.Text = "mosse rimaste: " + nmosse.ToString();
-                                labelTempoRimasto.Text = "secondi rimasti: " + secondiTimer.ToString();
+
+                                //grafica label e bottoni
+                                labelMosse.Text = "mosse rimaste: "+nmosse.ToString();
+                                labelMosse.TextAlign = ContentAlignment.MiddleCenter;
+                                labelMosse.Location = new Point((this.ClientSize.Width - labelMosse.Width) / 2, labelMosse.Location.Y);
+                                labelMosse.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                                labelMosse.ForeColor = Color.White;
+
+                                labelTempoRimasto.Text = "secondi rimasti: "+secondiTimer.ToString();
+                                labelTempoRimasto.TextAlign = ContentAlignment.MiddleCenter;
+                                labelTempoRimasto.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                                labelTempoRimasto.Location = new Point((this.ClientSize.Width - labelTempoRimasto.Width) / 2, labelTempoRimasto.Location.Y);
+                                labelTempoRimasto.ForeColor = Color.White;
+
+                                tornaMenu.Font= new Font(kiwiSoda.FontFamily, 30, FontStyle.Regular);
+                                tornaMenu.Location= new Point((this.ClientSize.Width - tornaMenu.Width) / 2, tornaMenu.Location.Y);
+
+                                punteggio = nmosse * 10 + secondiTimer * 3;
+                                labelPunteggio.Text= "punteggio: "+punteggio.ToString();
+                                labelPunteggio.TextAlign = ContentAlignment.MiddleCenter;
+                                labelPunteggio.Location= new Point((this.ClientSize.Width - labelPunteggio.Width) / 2,labelPunteggio.Location.Y);
+                                labelPunteggio.ForeColor = Color.White;
+                                labelPunteggio.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+
+
                                 victoryPanel.Show();
                                 victoryPanel.BringToFront();
                                 this.Refresh();
@@ -719,25 +737,25 @@ namespace GiocoDiCarte
                 pulsantiLivello[i].sprite = spriteBloccata;
             }**/
         }
-
+        
         private void timer(object sender, EventArgs e)
         {
             secondiTimer--;
-            labelTempo.Text = secondiTimer.ToString();
+            labelTempo.Text=secondiTimer.ToString();
             if (secondiTimer < 0)
             {
                 timergioco.Stop();
                 gamePanel.Hide();
                 gameoverPanel.Show();
-                gameoverPanel.BringToFront();
+                gameoverPanel.BringToFront();   
             }
 
         }
 
         private void gameoverPanel_Paint(object sender, PaintEventArgs e)
         {
-            int centerW = this.Width / 2;
-            int centerH = this.Height / 2;
+            int centerW = this.Width/2;
+            int centerH = this.Height/2;
 
             gameoverR = new Rectangle(centerW - gameover.Width / 2, centerH - gameover.Height * 2, gameover.Width, gameover.Height);
 
@@ -748,21 +766,20 @@ namespace GiocoDiCarte
 
 
 
-        //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
+//------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
         private void gameoverPanel_MouseClick(object sender, MouseEventArgs e)
         {
-            if (!inGameover)
-                return;
-
-            if (tornaMenuPulsante.r.Contains(e.Location))
+            if (inGameover)
             {
-                inGameover = false;
-                inMenu = true;
-                gameoverPanel.Hide();
-                menuPanel.Show();
+                if (tornaMenuPulsante.r.Contains(e.Location))
+                {
+                    inGameover = false;
+                    inMenu = true;
+                    gameoverPanel.Hide();
+                    menuPanel.Show();
+                }
             }
-
         }
     }
 
