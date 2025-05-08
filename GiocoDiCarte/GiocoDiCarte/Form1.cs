@@ -8,6 +8,7 @@ using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Channels;
 using System.Text;
@@ -675,7 +676,20 @@ namespace GiocoDiCarte
                                 }
                                 timergioco.Stop();
                                 labelMosse.Text = "mosse rimaste: "+nmosse.ToString();
+                                labelMosse.TextAlign = ContentAlignment.MiddleCenter;
+                                labelMosse.Location = new Point((this.ClientSize.Width - labelMosse.Width) / 2, labelMosse.Location.Y);
+                                labelMosse.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                                labelMosse.ForeColor = Color.White;
+
                                 labelTempoRimasto.Text = "secondi rimasti: "+secondiTimer.ToString();
+                                labelTempoRimasto.TextAlign = ContentAlignment.MiddleCenter;
+                                labelTempoRimasto.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                                labelTempoRimasto.Location = new Point((this.ClientSize.Width - labelTempoRimasto.Width) / 2, labelTempoRimasto.Location.Y);
+                                labelTempoRimasto.ForeColor = Color.White;
+
+                                tornaMenu.Font= new Font(kiwiSoda.FontFamily, 30, FontStyle.Regular);
+                                tornaMenu.Location= new Point((this.ClientSize.Width - tornaMenu.Width) / 2, tornaMenu.Location.Y);
+
                                 victoryPanel.Show();
                                 victoryPanel.BringToFront();
                                 this.Refresh();
