@@ -135,13 +135,15 @@ namespace GiocoDiCarte
             centraPannello(levelPanel);
             centraPannello(gamePanel);
             centraPannello(victoryPanel);
+            centraPannello(gameoverPanel);
 
             menuPanel.Dock = DockStyle.Fill;
             levelPanel.Dock = DockStyle.Fill;
             gamePanel.Dock = DockStyle.Fill;
             victoryPanel.Dock = DockStyle.Fill;
+            gameoverPanel.Dock = DockStyle.Fill;
 
-            foreach(Control ctrl in this.Controls)
+            foreach (Control ctrl in this.Controls)
             {
                 if(ctrl is Panel panel)
                 {
@@ -596,8 +598,14 @@ namespace GiocoDiCarte
                         carte[i].girato = true;
                         pausaClick = true;
                         nmosse--;
+                        
                         label3.Text = nmosse.ToString();
-
+                        if (nmosse == 0)
+                        {
+                            gameoverPanel.Show();
+                            gameoverPanel.BringToFront();
+                            gamePanel.Hide();
+                        }
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
                         {
@@ -652,7 +660,7 @@ namespace GiocoDiCarte
 
 //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
-
+        
 
     }
 
