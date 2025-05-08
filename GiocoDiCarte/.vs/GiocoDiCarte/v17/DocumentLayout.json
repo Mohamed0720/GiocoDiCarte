@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\tacos\\Documents\\GitHub\\GiocoDiCarte\\GiocoDiCarte\\",
+  "WorkspaceRootPath": "C:\\Users\\andre\\Documents\\GiocoDiCarte\\GiocoDiCarte\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9240EBEB-3AF1-4604-91ED-001773E7E58B}|GiocoDiCarte\\GiocoDiCarte.csproj|c:\\users\\tacos\\documents\\github\\giocodicarte\\giocodicarte\\giocodicarte\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9240EBEB-3AF1-4604-91ED-001773E7E58B}|GiocoDiCarte\\GiocoDiCarte.csproj|c:\\users\\andre\\documents\\giocodicarte\\giocodicarte\\giocodicarte\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9240EBEB-3AF1-4604-91ED-001773E7E58B}|GiocoDiCarte\\GiocoDiCarte.csproj|solutionrelative:giocodicarte\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9240EBEB-3AF1-4604-91ED-001773E7E58B}|GiocoDiCarte\\GiocoDiCarte.csproj|C:\\Users\\tacos\\Documents\\GitHub\\GiocoDiCarte\\GiocoDiCarte\\giocodicarte\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{9240EBEB-3AF1-4604-91ED-001773E7E58B}|GiocoDiCarte\\GiocoDiCarte.csproj|C:\\Users\\andre\\Documents\\GiocoDiCarte\\GiocoDiCarte\\giocodicarte\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{9240EBEB-3AF1-4604-91ED-001773E7E58B}|GiocoDiCarte\\GiocoDiCarte.csproj|solutionrelative:giocodicarte\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -24,11 +24,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\tacos\\Documents\\GitHub\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\andre\\Documents\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs",
               "RelativeDocumentMoniker": "GiocoDiCarte\\Form1.cs",
-              "ToolTip": "C:\\Users\\tacos\\Documents\\GitHub\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs",
+              "ToolTip": "C:\\Users\\andre\\Documents\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs",
               "RelativeToolTip": "GiocoDiCarte\\Form1.cs",
-              "ViewState": "AgIAACYBAAAAAAAAAAAUwE4BAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAkwJkAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-10T00:47:50.038Z",
               "EditorCaption": ""
@@ -37,12 +37,13 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Form1.cs [Progettazione]",
-              "DocumentMoniker": "C:\\Users\\tacos\\Documents\\GitHub\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\andre\\Documents\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs",
               "RelativeDocumentMoniker": "GiocoDiCarte\\Form1.cs",
-              "ToolTip": "C:\\Users\\tacos\\Documents\\GitHub\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs [Progettazione]",
+              "ToolTip": "C:\\Users\\andre\\Documents\\GiocoDiCarte\\GiocoDiCarte\\GiocoDiCarte\\Form1.cs [Progettazione]",
               "RelativeToolTip": "GiocoDiCarte\\Form1.cs [Progettazione]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-10T00:36:39.211Z"
+              "WhenOpened": "2025-04-10T00:36:39.211Z",
+              "EditorCaption": " [Progettazione]"
             }
           ]
         }
