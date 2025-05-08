@@ -656,6 +656,7 @@ namespace GiocoDiCarte
                         
                         if (nmosse == 0)
                         {
+                            inGameover = true;
                             gameoverPanel.Show();
                             gameoverPanel.BringToFront();
                             gamePanel.Hide();
@@ -705,6 +706,7 @@ namespace GiocoDiCarte
                                 victoryPanel.BringToFront();
                                 this.Refresh();
                                 condVittoria = 0;
+                                
                             }
                         }
                         else
@@ -738,6 +740,7 @@ namespace GiocoDiCarte
             }**/
         }
         
+        //sconfitta per il tempo
         private void timer(object sender, EventArgs e)
         {
             secondiTimer--;
@@ -747,7 +750,8 @@ namespace GiocoDiCarte
                 timergioco.Stop();
                 gamePanel.Hide();
                 gameoverPanel.Show();
-                gameoverPanel.BringToFront();   
+                gameoverPanel.BringToFront();
+                inGameover = true;
             }
 
         }
@@ -773,12 +777,14 @@ namespace GiocoDiCarte
             if (inGameover)
             {
                 if (tornaMenuPulsante.r.Contains(e.Location))
-                {
-                    inGameover = false;
-                    inMenu = true;
+                {   
                     gameoverPanel.Hide();
                     menuPanel.Show();
+                    inGameover = false;
+                    inMenu = true;
                 }
+                    
+                    
             }
         }
     }
