@@ -30,32 +30,29 @@
         {
             this.menuPanel = new System.Windows.Forms.Panel();
             this.victoryPanel = new System.Windows.Forms.Panel();
+            this.labelTempoRimasto = new System.Windows.Forms.Label();
+            this.labelMosse = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tornaMenu = new System.Windows.Forms.Button();
             this.titoloVittoria = new System.Windows.Forms.Label();
             this.gamePanel = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelTempo = new System.Windows.Forms.Label();
+            this.labelMosseTxt = new System.Windows.Forms.Label();
+            this.label_nMosse = new System.Windows.Forms.Label();
             this.Indietro = new System.Windows.Forms.Button();
             this.levelPanel = new System.Windows.Forms.Panel();
             this.gameoverPanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelTempo = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.labelMosse = new System.Windows.Forms.Label();
-            this.labelTempoRimasto = new System.Windows.Forms.Label();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
-            this.gameoverPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuPanel
             // 
             this.menuPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuPanel.Location = new System.Drawing.Point(663, 26);
+            this.menuPanel.Location = new System.Drawing.Point(817, 12);
             this.menuPanel.Name = "menuPanel";
-            this.menuPanel.Size = new System.Drawing.Size(511, 374);
+            this.menuPanel.Size = new System.Drawing.Size(80, 50);
             this.menuPanel.TabIndex = 3;
             this.menuPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.menuPanel_Paint);
             this.menuPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.menuPanel_MouseClick);
@@ -75,6 +72,45 @@
             this.victoryPanel.Name = "victoryPanel";
             this.victoryPanel.Size = new System.Drawing.Size(583, 326);
             this.victoryPanel.TabIndex = 1;
+            // 
+            // labelTempoRimasto
+            // 
+            this.labelTempoRimasto.AutoSize = true;
+            this.labelTempoRimasto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTempoRimasto.Location = new System.Drawing.Point(422, 232);
+            this.labelTempoRimasto.Name = "labelTempoRimasto";
+            this.labelTempoRimasto.Size = new System.Drawing.Size(70, 25);
+            this.labelTempoRimasto.TabIndex = 5;
+            this.labelTempoRimasto.Text = "label6";
+            // 
+            // labelMosse
+            // 
+            this.labelMosse.AutoSize = true;
+            this.labelMosse.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMosse.Location = new System.Drawing.Point(422, 207);
+            this.labelMosse.Name = "labelMosse";
+            this.labelMosse.Size = new System.Drawing.Size(70, 25);
+            this.labelMosse.TabIndex = 4;
+            this.labelMosse.Text = "label6";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(238, 232);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(178, 25);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "tempo rimanente:";
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(243, 207);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(198, 21);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "mosse rimanenti:";
             // 
             // tornaMenu
             // 
@@ -103,9 +139,8 @@
             this.gamePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.gamePanel.AutoSize = true;
             this.gamePanel.Controls.Add(this.labelTempo);
-            this.gamePanel.Controls.Add(this.label1);
-            this.gamePanel.Controls.Add(this.label2);
-            this.gamePanel.Controls.Add(this.label3);
+            this.gamePanel.Controls.Add(this.labelMosseTxt);
+            this.gamePanel.Controls.Add(this.label_nMosse);
             this.gamePanel.Controls.Add(this.Indietro);
             this.gamePanel.Location = new System.Drawing.Point(59, 520);
             this.gamePanel.Name = "gamePanel";
@@ -115,23 +150,35 @@
             this.gamePanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
             this.gamePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseMove);
             // 
-            // label2
+            // labelTempo
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(691, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "mosse:";
+            this.labelTempo.AutoSize = true;
+            this.labelTempo.BackColor = System.Drawing.Color.Transparent;
+            this.labelTempo.Location = new System.Drawing.Point(25, 25);
+            this.labelTempo.Name = "labelTempo";
+            this.labelTempo.Size = new System.Drawing.Size(25, 13);
+            this.labelTempo.TabIndex = 4;
+            this.labelTempo.Text = "150";
             // 
-            // label3
+            // labelMosseTxt
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(737, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "label3";
+            this.labelMosseTxt.AutoSize = true;
+            this.labelMosseTxt.BackColor = System.Drawing.Color.Transparent;
+            this.labelMosseTxt.Location = new System.Drawing.Point(691, 25);
+            this.labelMosseTxt.Name = "labelMosseTxt";
+            this.labelMosseTxt.Size = new System.Drawing.Size(40, 13);
+            this.labelMosseTxt.TabIndex = 2;
+            this.labelMosseTxt.Text = "mosse:";
+            // 
+            // label_nMosse
+            // 
+            this.label_nMosse.AutoSize = true;
+            this.label_nMosse.BackColor = System.Drawing.Color.Transparent;
+            this.label_nMosse.Location = new System.Drawing.Point(737, 25);
+            this.label_nMosse.Name = "label_nMosse";
+            this.label_nMosse.Size = new System.Drawing.Size(35, 13);
+            this.label_nMosse.TabIndex = 1;
+            this.label_nMosse.Text = "label3";
             // 
             // Indietro
             // 
@@ -149,7 +196,7 @@
             this.levelPanel.AutoSize = true;
             this.levelPanel.Location = new System.Drawing.Point(59, 76);
             this.levelPanel.Name = "levelPanel";
-            this.levelPanel.Size = new System.Drawing.Size(59, 34);
+            this.levelPanel.Size = new System.Drawing.Size(84, 49);
             this.levelPanel.TabIndex = 3;
             this.levelPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.levelPanel_Paint);
             this.levelPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.levelPanel_MouseClick);
@@ -157,86 +204,12 @@
             // 
             // gameoverPanel
             // 
-            this.gameoverPanel.Controls.Add(this.button1);
-            this.gameoverPanel.Location = new System.Drawing.Point(12, 35);
+            this.gameoverPanel.Location = new System.Drawing.Point(167, 25);
             this.gameoverPanel.Name = "gameoverPanel";
-            this.gameoverPanel.Size = new System.Drawing.Size(49, 35);
+            this.gameoverPanel.Size = new System.Drawing.Size(271, 113);
             this.gameoverPanel.TabIndex = 5;
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(352, 344);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 46);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Torna al menu";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "tempo rimanente:";
-            // 
-            // labelTempo
-            // 
-            this.labelTempo.AutoSize = true;
-            this.labelTempo.Location = new System.Drawing.Point(118, 25);
-            this.labelTempo.Name = "labelTempo";
-            this.labelTempo.Size = new System.Drawing.Size(25, 13);
-            this.labelTempo.TabIndex = 4;
-            this.labelTempo.Text = "150";
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(243, 207);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(198, 21);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "mosse rimanenti:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(238, 232);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(178, 25);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "tempo rimanente:";
-            // 
-            // labelMosse
-            // 
-            this.labelMosse.AutoSize = true;
-            this.labelMosse.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMosse.Location = new System.Drawing.Point(422, 207);
-            this.labelMosse.Name = "labelMosse";
-            this.labelMosse.Size = new System.Drawing.Size(70, 25);
-            this.labelMosse.TabIndex = 4;
-            this.labelMosse.Text = "label6";
-            // 
-            // labelTempoRimasto
-            // 
-            this.labelTempoRimasto.AutoSize = true;
-            this.labelTempoRimasto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTempoRimasto.Location = new System.Drawing.Point(422, 232);
-            this.labelTempoRimasto.Name = "labelTempoRimasto";
-            this.labelTempoRimasto.Size = new System.Drawing.Size(70, 25);
-            this.labelTempoRimasto.TabIndex = 5;
-            this.labelTempoRimasto.Text = "label6";
+            this.gameoverPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseClick);
             // 
             // Form1
             // 
@@ -257,7 +230,6 @@
             this.victoryPanel.PerformLayout();
             this.gamePanel.ResumeLayout(false);
             this.gamePanel.PerformLayout();
-            this.gameoverPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -271,12 +243,10 @@
         private System.Windows.Forms.Label titoloVittoria;
         private System.Windows.Forms.Button tornaMenu;
         private System.Windows.Forms.Panel levelPanel;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label_nMosse;
         private System.Windows.Forms.Panel gameoverPanel;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelMosseTxt;
         private System.Windows.Forms.Label labelTempo;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelMosse;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
