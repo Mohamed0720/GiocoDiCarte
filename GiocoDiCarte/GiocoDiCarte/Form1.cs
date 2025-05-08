@@ -696,9 +696,12 @@ namespace GiocoDiCarte
         }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
 
 =======
+=======
+>>>>>>> Stashed changes
         private void gameoverPanel_Paint(object sender, PaintEventArgs e)
         {
             int centerW = this.Width/2;
@@ -710,6 +713,9 @@ namespace GiocoDiCarte
 
             e.Graphics.DrawImage(tornaAlMenu, tornaMenuPulsante.r);
         }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 
@@ -717,12 +723,16 @@ namespace GiocoDiCarte
         //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         private void button1_Click(object sender, EventArgs e)
         {
             inMenu = true;
             gameoverPanel.Hide();
             menuPanel.Show();
         }
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes

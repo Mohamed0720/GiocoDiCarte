@@ -163,6 +163,7 @@
             this.gameoverPanel.Size = new System.Drawing.Size(49, 35);
             this.gameoverPanel.TabIndex = 5;
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
+<<<<<<< Updated upstream
             // 
             // button1
             // 
@@ -174,6 +175,8 @@
             this.button1.Text = "Torna al menu";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+=======
+>>>>>>> Stashed changes
             // 
             // label1
             // 
