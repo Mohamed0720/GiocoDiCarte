@@ -38,8 +38,11 @@
             this.levelPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.gameoverPanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
+            this.levelPanel.SuspendLayout();
+            this.gameoverPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuPanel
@@ -123,9 +126,10 @@
             // 
             this.levelPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.levelPanel.AutoSize = true;
+            this.levelPanel.Controls.Add(this.gameoverPanel);
             this.levelPanel.Location = new System.Drawing.Point(59, 76);
             this.levelPanel.Name = "levelPanel";
-            this.levelPanel.Size = new System.Drawing.Size(799, 413);
+            this.levelPanel.Size = new System.Drawing.Size(835, 445);
             this.levelPanel.TabIndex = 3;
             this.levelPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.levelPanel_Paint);
             this.levelPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.levelPanel_MouseClick);
@@ -142,17 +146,27 @@
             // 
             // gameoverPanel
             // 
-            this.gameoverPanel.Location = new System.Drawing.Point(42, 8);
+            this.gameoverPanel.Controls.Add(this.label2);
+            this.gameoverPanel.Location = new System.Drawing.Point(116, 15);
             this.gameoverPanel.Name = "gameoverPanel";
-            this.gameoverPanel.Size = new System.Drawing.Size(136, 89);
+            this.gameoverPanel.Size = new System.Drawing.Size(716, 427);
             this.gameoverPanel.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(285, 179);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "GAME OVER";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(954, 570);
-            this.Controls.Add(this.gameoverPanel);
             this.Controls.Add(this.levelPanel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gamePanel);
@@ -167,6 +181,9 @@
             this.victoryPanel.PerformLayout();
             this.gamePanel.ResumeLayout(false);
             this.gamePanel.PerformLayout();
+            this.levelPanel.ResumeLayout(false);
+            this.gameoverPanel.ResumeLayout(false);
+            this.gameoverPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,6 +200,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel gameoverPanel;
+        private System.Windows.Forms.Label label2;
     }
 }
 

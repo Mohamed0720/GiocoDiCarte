@@ -151,6 +151,7 @@ namespace GiocoDiCarte
                     panel.BackgroundImageLayout = ImageLayout.Tile;
                 }
             }
+            gameoverPanel.Hide();
             menuPanel.BringToFront();
 
             int giocaX = this.ClientSize.Width / 2 - gioca.Width / 2;
@@ -600,6 +601,7 @@ namespace GiocoDiCarte
                         nmosse--;
                         
                         label3.Text = nmosse.ToString();
+                        
                         if (nmosse == 0)
                         {
                             gameoverPanel.Show();
@@ -658,9 +660,14 @@ namespace GiocoDiCarte
             }**/
         }
 
-//------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
+        private void label2_Click(object sender, EventArgs e)
+        {
 
-        
+        }
+
+        //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
+
+
 
     }
 
