@@ -117,9 +117,9 @@
             this.gamePanel.Controls.Add(this.labelTornaMenu);
             this.gamePanel.Controls.Add(this.labelTempo);
             this.gamePanel.Controls.Add(this.label_nMosse);
-            this.gamePanel.Location = new System.Drawing.Point(931, 43);
+            this.gamePanel.Location = new System.Drawing.Point(933, 68);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(802, 491);
+            this.gamePanel.Size = new System.Drawing.Size(725, 479);
             this.gamePanel.TabIndex = 3;
             this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panelGame_Paint);
             this.gamePanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
@@ -129,7 +129,7 @@
             // 
             this.labelTornaMenu.AutoSize = true;
             this.labelTornaMenu.BackColor = System.Drawing.Color.Transparent;
-            this.labelTornaMenu.Location = new System.Drawing.Point(24, 461);
+            this.labelTornaMenu.Location = new System.Drawing.Point(14, 466);
             this.labelTornaMenu.Name = "labelTornaMenu";
             this.labelTornaMenu.Size = new System.Drawing.Size(75, 13);
             this.labelTornaMenu.TabIndex = 5;
@@ -140,7 +140,7 @@
             // 
             this.labelTempo.AutoSize = true;
             this.labelTempo.BackColor = System.Drawing.Color.Transparent;
-            this.labelTempo.Location = new System.Drawing.Point(25, 25);
+            this.labelTempo.Location = new System.Drawing.Point(14, 13);
             this.labelTempo.Name = "labelTempo";
             this.labelTempo.Size = new System.Drawing.Size(29, 13);
             this.labelTempo.TabIndex = 4;
@@ -150,7 +150,7 @@
             // 
             this.label_nMosse.AutoSize = true;
             this.label_nMosse.BackColor = System.Drawing.Color.Transparent;
-            this.label_nMosse.Location = new System.Drawing.Point(673, 25);
+            this.label_nMosse.Location = new System.Drawing.Point(687, 13);
             this.label_nMosse.Name = "label_nMosse";
             this.label_nMosse.Size = new System.Drawing.Size(35, 13);
             this.label_nMosse.TabIndex = 1;
@@ -172,7 +172,7 @@
             // 
             this.gameoverPanel.Location = new System.Drawing.Point(167, 25);
             this.gameoverPanel.Name = "gameoverPanel";
-            this.gameoverPanel.Size = new System.Drawing.Size(96, 70);
+            this.gameoverPanel.Size = new System.Drawing.Size(88, 76);
             this.gameoverPanel.TabIndex = 5;
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
             this.gameoverPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseClick);
