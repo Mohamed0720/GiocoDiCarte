@@ -119,7 +119,8 @@ namespace GiocoDiCarte
         private int livelloSelezionato;
         private int nmosse;
         private int secondiTimer;
-        Timer timergioco = new Timer(); 
+        Timer timergioco = new Timer();
+        private int punteggio = 0;
         //Variabili booleane per altro
         private bool pausaClick = false;
 
@@ -675,6 +676,8 @@ namespace GiocoDiCarte
                                     livelliSbloccati += 1;
                                 }
                                 timergioco.Stop();
+
+                                //grafica label e bottoni
                                 labelMosse.Text = "mosse rimaste: "+nmosse.ToString();
                                 labelMosse.TextAlign = ContentAlignment.MiddleCenter;
                                 labelMosse.Location = new Point((this.ClientSize.Width - labelMosse.Width) / 2, labelMosse.Location.Y);
@@ -689,6 +692,14 @@ namespace GiocoDiCarte
 
                                 tornaMenu.Font= new Font(kiwiSoda.FontFamily, 30, FontStyle.Regular);
                                 tornaMenu.Location= new Point((this.ClientSize.Width - tornaMenu.Width) / 2, tornaMenu.Location.Y);
+
+                                punteggio = nmosse * 10 + secondiTimer * 3;
+                                labelPunteggio.Text= "punteggio: "+punteggio.ToString();
+                                labelPunteggio.TextAlign = ContentAlignment.MiddleCenter;
+                                labelPunteggio.Location= new Point((this.ClientSize.Width - labelPunteggio.Width) / 2,labelPunteggio.Location.Y);
+                                labelPunteggio.ForeColor = Color.White;
+                                labelPunteggio.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+
 
                                 victoryPanel.Show();
                                 victoryPanel.BringToFront();

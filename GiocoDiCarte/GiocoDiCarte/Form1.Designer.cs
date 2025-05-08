@@ -40,6 +40,7 @@
             this.label_nMosse = new System.Windows.Forms.Label();
             this.levelPanel = new System.Windows.Forms.Panel();
             this.gameoverPanel = new System.Windows.Forms.Panel();
+            this.labelPunteggio = new System.Windows.Forms.Label();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
             this.SuspendLayout();
@@ -59,13 +60,14 @@
             // 
             this.victoryPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.victoryPanel.AutoSize = true;
+            this.victoryPanel.Controls.Add(this.labelPunteggio);
             this.victoryPanel.Controls.Add(this.labelTempoRimasto);
             this.victoryPanel.Controls.Add(this.labelMosse);
             this.victoryPanel.Controls.Add(this.tornaMenu);
             this.victoryPanel.Controls.Add(this.titoloVittoria);
             this.victoryPanel.Location = new System.Drawing.Point(12, 68);
             this.victoryPanel.Name = "victoryPanel";
-            this.victoryPanel.Size = new System.Drawing.Size(1236, 539);
+            this.victoryPanel.Size = new System.Drawing.Size(1263, 539);
             this.victoryPanel.TabIndex = 1;
             // 
             // labelTempoRimasto
@@ -82,7 +84,7 @@
             // 
             this.labelMosse.BackColor = System.Drawing.Color.Transparent;
             this.labelMosse.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMosse.Location = new System.Drawing.Point(416, 274);
+            this.labelMosse.Location = new System.Drawing.Point(416, 264);
             this.labelMosse.Name = "labelMosse";
             this.labelMosse.Size = new System.Drawing.Size(817, 70);
             this.labelMosse.TabIndex = 4;
@@ -104,7 +106,7 @@
             // 
             this.titoloVittoria.AutoSize = true;
             this.titoloVittoria.Font = new System.Drawing.Font("Microsoft New Tai Lue", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titoloVittoria.Location = new System.Drawing.Point(354, 179);
+            this.titoloVittoria.Location = new System.Drawing.Point(354, 27);
             this.titoloVittoria.Name = "titoloVittoria";
             this.titoloVittoria.Size = new System.Drawing.Size(230, 63);
             this.titoloVittoria.TabIndex = 0;
@@ -177,6 +179,15 @@
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
             this.gameoverPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseClick);
             // 
+            // labelPunteggio
+            // 
+            this.labelPunteggio.BackColor = System.Drawing.Color.Transparent;
+            this.labelPunteggio.Location = new System.Drawing.Point(418, 196);
+            this.labelPunteggio.Name = "labelPunteggio";
+            this.labelPunteggio.Size = new System.Drawing.Size(842, 68);
+            this.labelPunteggio.TabIndex = 6;
+            this.labelPunteggio.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -214,6 +225,7 @@
         private System.Windows.Forms.Label labelMosse;
         private System.Windows.Forms.Label labelTempoRimasto;
         private System.Windows.Forms.Label labelTornaMenu;
+        private System.Windows.Forms.Label labelPunteggio;
     }
 }
 
