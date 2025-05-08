@@ -479,10 +479,10 @@ namespace GiocoDiCarte
                     for (int j = 0; j < (colonne-i*2); j++)
                     {
                         int startX = (screenWidth - grigliaWidth) / 2 + i * (larghezzaCarta + padding);
-                        int startY = (screenHeight - grigliaHeight) / 2;
+                        int startY = (screenHeight - altezzaCarta - padding);
 
                         int x = startX + j * (larghezzaCarta + padding);
-                        int y = startY + altezzaCarta * i + padding * i;
+                        int y = startY - altezzaCarta * i - padding * i;
 
                         Rectangle r = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
                         carte.Add(new Carta(r));
@@ -514,25 +514,18 @@ namespace GiocoDiCarte
             }
             else if (livello + 1 == 10)
             {
-                righe = 4;
-                int colonne = 7;
 
-                int grigliaWidth = ((larghezzaCarta * colonne) + (padding * (colonne - 1)));
-                int grigliaHeight = (altezzaCarta * righe + padding * righe);
-
-                for (int i = 0; i < righe; i++)
+                for (int i = 0; i < totaleCarte; i++)
                 {
-                    for (int j = 0; j < (colonne - i * 2); j++)
-                    {
-                        int startX = (screenWidth - grigliaWidth) / 2 + i * (larghezzaCarta + padding);
-                        int startY = (screenHeight - grigliaHeight) / 2;
 
-                        int x = startX + j * (larghezzaCarta + padding);
-                        int y = startY + altezzaCarta * i + padding * i;
+                    double angle = i * 10;
+                    double radius = 10 + i * 20;
+                    int x = Convert.ToInt32(screenWidth / 2 + radius * Math.Cos(angle));
+                    int y = Convert.ToInt32(screenHeight / 2 + radius * Math.Sin(angle));
 
-                        Rectangle r = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
-                        carte.Add(new Carta(r));
-                    }
+                    Rectangle r = new Rectangle(x, y, larghezzaCarta, altezzaCarta);
+                    carte.Add(new Carta(r));
+
                 }
             }
 
@@ -654,6 +647,7 @@ namespace GiocoDiCarte
                             gameoverPanel.BringToFront();
                             gamePanel.Hide();
                             timergioco.Stop();
+                            inGameover = true;
                         }
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
@@ -740,16 +734,17 @@ namespace GiocoDiCarte
 
         private void gameoverPanel_MouseClick(object sender, MouseEventArgs e)
         {
-            if (inGameover)
+            if (!inGameover)
+                return;
+
+            if (tornaMenuPulsante.r.Contains(e.Location))
             {
-                if (tornaMenuPulsante.r.Contains(e.Location))
-                {
-                    inGameover = false;
-                    inMenu = true;
-                    gameoverPanel.Hide();
-                    menuPanel.Show();
-                }
+                inGameover = false;
+                inMenu = true;
+                gameoverPanel.Hide();
+                menuPanel.Show();
             }
+            
         }
     }
 
