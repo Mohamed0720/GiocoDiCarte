@@ -117,8 +117,8 @@ namespace GiocoDiCarte
         private int livelliSbloccati = 9;
         private int livelloSelezionato;
         private int nmosse;
-        private int secondiTimer = 150;
-        Timer timergioco = new Timer();
+        private int secondiTimer;
+        Timer timergioco = new Timer(); 
         //Variabili booleane per altro
         private bool pausaClick = false;
 
@@ -216,7 +216,7 @@ namespace GiocoDiCarte
             fps.Interval = 64;
             fps.Tick += ridisegno;
             fps.Start();
-
+            
         }
 
         //Ridisegno pannelli ogni tot tempo//----------------------------------------//
@@ -365,25 +365,27 @@ namespace GiocoDiCarte
                         if(livelliSbloccati >= livelloSelezionato)
                         {
                             nmosse = (livelloSelezionato + 1)*2+5;
-                            label_nMosse.Text = nmosse.ToString();
-
+                            label_nMosse.Text = "mosse: "+nmosse.ToString();
+                           
                             labelTempo.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
-                            labelTempo.ForeColor = Color.White;
-                            labelMosseTxt.Font = kiwiSoda;
-                            labelMosseTxt.ForeColor = Color.White;
-                            label_nMosse.Font = kiwiSoda;
+                            labelTempo.ForeColor = Color.White;                           
+                            label_nMosse.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular); ;
                             label_nMosse.ForeColor = Color.White;
+                            labelTornaMenu.Font= new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
+                            labelTornaMenu.ForeColor= Color.White;
 
 
                             generaCarte(livelloSelezionato);
                             gamePanel.Show();
                             levelPanel.Hide();
 
-                            secondiTimer = 150;
+                            secondiTimer = 100;
+                            labelTempo.Text=secondiTimer.ToString();
                             timergioco.Interval = 1000;
+                            timergioco.Tick -= timer;
                             timergioco.Tick += timer;
                             timergioco.Start();
-                            
+
                         }
                         else
                         {
@@ -574,8 +576,10 @@ namespace GiocoDiCarte
         }
 
         //Tasto Torna al Menu Principale//-------------------------------------------//
-        private void Indietro_Click(object sender, EventArgs e)
+        
+        private void labelTornaMenu_Click(object sender, EventArgs e)
         {
+            timergioco.Stop();
             gamePanel.Hide();
             menuPanel.Show();
             inGame = false;
@@ -583,6 +587,7 @@ namespace GiocoDiCarte
             carte.Clear();
             menuPanel.Invalidate();
             inMenu = true;
+            
         }
 
         //Funzione chiamata ad ogni ridisegno del pannello di gioco//----------------//
@@ -645,8 +650,7 @@ namespace GiocoDiCarte
                         carte[i].girato = true;
                         pausaClick = true;
                         nmosse--;
-                        
-                        label_nMosse.Text = nmosse.ToString();
+                        label_nMosse.Text = "mosse: "+nmosse.ToString();
                         
                         if (nmosse == 0)
                         {
@@ -670,8 +674,8 @@ namespace GiocoDiCarte
                                     livelliSbloccati += 1;
                                 }
                                 timergioco.Stop();
-                                labelMosse.Text = nmosse.ToString();
-                                labelTempoRimasto.Text = secondiTimer.ToString();
+                                labelMosse.Text = "mosse rimaste: "+nmosse.ToString();
+                                labelTempoRimasto.Text = "secondi rimasti: "+secondiTimer.ToString();
                                 victoryPanel.Show();
                                 victoryPanel.BringToFront();
                                 this.Refresh();
@@ -722,6 +726,7 @@ namespace GiocoDiCarte
             }
 
         }
+
         private void gameoverPanel_Paint(object sender, PaintEventArgs e)
         {
             int centerW = this.Width/2;
