@@ -37,6 +37,7 @@
             this.Indietro = new System.Windows.Forms.Button();
             this.levelPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.gameoverPanel = new System.Windows.Forms.Panel();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
             this.SuspendLayout();
@@ -139,11 +140,19 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "label1";
             // 
+            // gameoverPanel
+            // 
+            this.gameoverPanel.Location = new System.Drawing.Point(42, 8);
+            this.gameoverPanel.Name = "gameoverPanel";
+            this.gameoverPanel.Size = new System.Drawing.Size(136, 89);
+            this.gameoverPanel.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(954, 570);
+            this.Controls.Add(this.gameoverPanel);
             this.Controls.Add(this.levelPanel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gamePanel);
@@ -173,6 +182,7 @@
         private System.Windows.Forms.Panel levelPanel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel gameoverPanel;
     }
 }
 
