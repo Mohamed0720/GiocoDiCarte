@@ -694,7 +694,7 @@ namespace GiocoDiCarte
                                 tornaMenu.Location= new Point((this.ClientSize.Width - tornaMenu.Width) / 2, tornaMenu.Location.Y);
 
                                 punteggio = nmosse * 10 + secondiTimer * 3;
-                                labelPunteggio.Text= "punteggio: "+punteggio.ToString();
+                                labelPunteggio.Text= "punteggio: " + punteggio.ToString();
                                 labelPunteggio.TextAlign = ContentAlignment.MiddleCenter;
                                 labelPunteggio.Location= new Point((this.ClientSize.Width - labelPunteggio.Width) / 2,labelPunteggio.Location.Y);
                                 labelPunteggio.ForeColor = Color.White;
