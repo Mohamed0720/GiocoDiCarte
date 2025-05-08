@@ -162,6 +162,7 @@
             this.gameoverPanel.Name = "gameoverPanel";
             this.gameoverPanel.Size = new System.Drawing.Size(49, 35);
             this.gameoverPanel.TabIndex = 5;
+            this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
             // 
             // button1
             // 

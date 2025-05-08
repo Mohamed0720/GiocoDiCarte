@@ -61,12 +61,13 @@ namespace GiocoDiCarte
                 this.sprite = sprite;
             }
         }
-        
+
         //Variabili generali//-------------------------------------------------------//
-        private bool inGame = false;
         private bool inMenu = true;
+        private bool inGame = false;
         private bool inLevels = false;
         private bool inVictory = false;
+        private bool inGameover = false;
 
         //Le Bitmap//
         private Bitmap retroCarta = new Bitmap("Sprite/carte/retroCarta.png");
@@ -88,14 +89,20 @@ namespace GiocoDiCarte
         private Bitmap esciHover = new Bitmap("Sprite/Pulsanti/esciHover.png");
         private Bitmap sfondo = new Bitmap("Sprite/sfondo.png");
         private Bitmap livelli = new Bitmap("Sprite/livelli.png");
+        private Bitmap gameover = new Bitmap("Sprite/gameover.png");
+        private Bitmap tornaAlMenu = new Bitmap("Sprite/tornaAlMenu.png");
+
+        Rectangle titoloR;
+        Rectangle livelliR;
+        Rectangle gameoverR;
 
         //Gli Oggetti Pulsante nel Main//
         private Pulsante Gioca;
         private Pulsante Esci;
-        private Pulsante Titolo;
-        //Oggetti Pulsante nella selezione livelli
-        private Pulsante Livelli;
+        //Oggetti Pulsante nella selezione livelli//
         private List<PulsanteLivello> pulsantiLivello = new List<PulsanteLivello>();
+        //Oggetto tornaMenu//
+        private Pulsante tornaMenuPulsante;
 
         //Liste per tenere le carte//
         List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Turchese", "Viola", "Fuoco", "Acqua", "Sole" };
@@ -130,7 +137,6 @@ namespace GiocoDiCarte
 
         //Funzione chiamata all'avvio del programma//--------------------------------//
         public Form1()
-            
         {                                                                           
             InitializeComponent();
 
@@ -167,18 +173,14 @@ namespace GiocoDiCarte
             r = new Rectangle(esciX, esciY, esci.Width, esci.Height);
             Esci = new Pulsante(r);
 
-            int titoloX = this.ClientSize.Width / 2 - titolo.Width / 2;
-            int titoloY = this.ClientSize.Height / 2 - titolo.Height * 2;
-            r = new Rectangle(titoloX, titoloY, titolo.Width, titolo.Height);
-            Titolo = new Pulsante(r);
-
-            int livelliX = this.ClientSize.Width / 2 - livelli.Width / 2;
-            int livelliY = this.ClientSize.Height / 2 - livelli.Height * 3;
-            r = new Rectangle(livelliX, livelliY, livelli.Width, livelli.Height);
-            Livelli = new Pulsante(r);
 
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
             genLivelli();
+
+            int tornaMenuX = this.ClientSize.Width / 2 - tornaMenu.Width / 2;
+            int tornaMenuY = this.ClientSize.Height / 2 - tornaMenu.Height / 2;
+            r = new Rectangle(tornaMenuX, tornaMenuY, tornaAlMenu.Width, tornaAlMenu.Height);
+            tornaMenuPulsante = new Pulsante(r);
 
             foreach (Control c in this.Controls)
             {
@@ -229,6 +231,10 @@ namespace GiocoDiCarte
                     levelPanel.Invalidate(pulsantiLivello[i].r);
                 }
             }
+            else if (inGameover)
+            {
+                gameoverPanel.Invalidate(gameoverR);
+            }
 
         }
 
@@ -242,7 +248,8 @@ namespace GiocoDiCarte
             
             e.Graphics.DrawImage(Esci.hover ? esciHover : esci, Esci.r);
 
-            e.Graphics.DrawImage(titolo, Titolo.r);
+            titoloR = new Rectangle(this.ClientSize.Width / 2 - titolo.Width / 2, this.ClientSize.Height / 2 - titolo.Height * 2, titolo.Width, titolo.Height);
+            e.Graphics.DrawImage(titolo, titoloR);
 
             
         }
@@ -372,7 +379,8 @@ namespace GiocoDiCarte
             {
                 e.Graphics.DrawImage(pulsantiLivello[i].sprite, pulsantiLivello[i].r);
 
-                e.Graphics.DrawImage(livelli, Livelli.r);
+                livelliR = new Rectangle(this.ClientSize.Width / 2 - livelli.Width / 2, this.ClientSize.Height / 2 - livelli.Height * 3, livelli.Width, livelli.Height);
+                e.Graphics.DrawImage(livelli, livelliR);
             }
         }
 
@@ -687,19 +695,37 @@ namespace GiocoDiCarte
 
         }
 
+<<<<<<< Updated upstream
         
 
+=======
+        private void gameoverPanel_Paint(object sender, PaintEventArgs e)
+        {
+            int centerW = this.Width/2;
+            int centerH = this.Height/2;
+
+            gameoverR = new Rectangle(centerW - gameover.Width / 2, centerH - gameover.Height * 2, gameover.Width, gameover.Height);
+
+            e.Graphics.DrawImage(gameover, gameoverR);
+
+            e.Graphics.DrawImage(tornaAlMenu, tornaMenuPulsante.r);
+        }
+>>>>>>> Stashed changes
 
 
 
         //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
+<<<<<<< Updated upstream
         private void button1_Click(object sender, EventArgs e)
         {
             inMenu = true;
             gameoverPanel.Hide();
             menuPanel.Show();
         }
+=======
+
+>>>>>>> Stashed changes
 
     }
 
