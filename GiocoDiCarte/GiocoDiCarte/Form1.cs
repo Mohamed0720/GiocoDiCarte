@@ -61,12 +61,13 @@ namespace GiocoDiCarte
                 this.sprite = sprite;
             }
         }
-        
+
         //Variabili generali//-------------------------------------------------------//
-        private bool inGame = false;
         private bool inMenu = true;
+        private bool inGame = false;
         private bool inLevels = false;
         private bool inVictory = false;
+        private bool inGameover = false;
 
         //Le Bitmap//
         private Bitmap retroCarta = new Bitmap("Sprite/carte/retroCarta.png");
@@ -88,14 +89,20 @@ namespace GiocoDiCarte
         private Bitmap esciHover = new Bitmap("Sprite/Pulsanti/esciHover.png");
         private Bitmap sfondo = new Bitmap("Sprite/sfondo.png");
         private Bitmap livelli = new Bitmap("Sprite/livelli.png");
+        private Bitmap gameover = new Bitmap("Sprite/gameover.png");
+        private Bitmap tornaAlMenu = new Bitmap("Sprite/tornaAlMenu.png");
+
+        Rectangle titoloR;
+        Rectangle livelliR;
+        Rectangle gameoverR;
 
         //Gli Oggetti Pulsante nel Main//
         private Pulsante Gioca;
         private Pulsante Esci;
-        private Pulsante Titolo;
-        //Oggetti Pulsante nella selezione livelli
-        private Pulsante Livelli;
+        //Oggetti Pulsante nella selezione livelli//
         private List<PulsanteLivello> pulsantiLivello = new List<PulsanteLivello>();
+        //Oggetto tornaMenu//
+        private Pulsante tornaMenuPulsante;
 
         //Liste per tenere le carte//
         List<string> colori = new List<string> { "Arancio", "Rosso", "Blu", "Verde", "Giallo", "Turchese", "Viola", "Fuoco", "Acqua", "Sole" };
@@ -115,10 +122,14 @@ namespace GiocoDiCarte
         //Variabili booleane per altro
         private bool pausaClick = false;
 
-        
+        //Aggiunge il font//
+        private PrivateFontCollection ff1 = new PrivateFontCollection();
+        Font kiwiSoda;
 
 
-//--------------------------------------#/GENERALI\#-----------------------------------------\\
+
+
+        //--------------------------------------#/GENERALI\#-----------------------------------------\\
 
         //Centra i Pannelli//--------------------------------------------------------//
         private void centraPannello(Panel p)
@@ -130,22 +141,25 @@ namespace GiocoDiCarte
 
         //Funzione chiamata all'avvio del programma//--------------------------------//
         public Form1()
-            
-        {                                                                           
+        {                  
+            //Inizializza il form//
             InitializeComponent();
 
+            //Centra i pannelli//
             centraPannello(menuPanel);
             centraPannello(levelPanel);
             centraPannello(gamePanel);
             centraPannello(victoryPanel);
             centraPannello(gameoverPanel);
 
+            //Fa sì che i pannelli riempano tutto lo spazio disponibile nella finestra//
             menuPanel.Dock = DockStyle.Fill;
             levelPanel.Dock = DockStyle.Fill;
             gamePanel.Dock = DockStyle.Fill;
             victoryPanel.Dock = DockStyle.Fill;
             gameoverPanel.Dock = DockStyle.Fill;
 
+            //Aggiunge lo sfondo ad ogni pannello//
             foreach (Control ctrl in this.Controls)
             {
                 if(ctrl is Panel panel)
@@ -154,9 +168,15 @@ namespace GiocoDiCarte
                     panel.BackgroundImageLayout = ImageLayout.Tile;
                 }
             }
+
             gameoverPanel.Hide();
             menuPanel.BringToFront();
 
+            //Aggiunge il font//
+            ff1.AddFontFile("Font/KiwiSoda.ttf");
+            kiwiSoda = new Font(ff1.Families[0], 16, FontStyle.Regular);
+
+            //Imposta la dimensione e la posizione dei diversi pulsanti//
             int giocaX = this.ClientSize.Width / 2 - gioca.Width / 2;
             int giocaY = this.ClientSize.Height / 2 - gioca.Height / 2;
             Rectangle r = new Rectangle(giocaX, giocaY, gioca.Width, gioca.Height);
@@ -167,19 +187,18 @@ namespace GiocoDiCarte
             r = new Rectangle(esciX, esciY, esci.Width, esci.Height);
             Esci = new Pulsante(r);
 
-            int titoloX = this.ClientSize.Width / 2 - titolo.Width / 2;
-            int titoloY = this.ClientSize.Height / 2 - titolo.Height * 2;
-            r = new Rectangle(titoloX, titoloY, titolo.Width, titolo.Height);
-            Titolo = new Pulsante(r);
+            int tornaMenuX = this.ClientSize.Width / 2 - tornaMenu.Width / 2;
+            int tornaMenuY = this.ClientSize.Height / 2 - tornaMenu.Height / 2;
+            r = new Rectangle(tornaMenuX, tornaMenuY, tornaAlMenu.Width, tornaAlMenu.Height);
+            tornaMenuPulsante = new Pulsante(r);
 
-            int livelliX = this.ClientSize.Width / 2 - livelli.Width / 2;
-            int livelliY = this.ClientSize.Height / 2 - livelli.Height * 3;
-            r = new Rectangle(livelliX, livelliY, livelli.Width, livelli.Height);
-            Livelli = new Pulsante(r);
-
+            //Aggiunge le bitmap delle carte alla lista sprites//
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
+            
+            //Richiama la funzione che genera i pulsanti di selezione livello//
             genLivelli();
 
+            //Struttura For che imposta l'opzione DoubleBuffered di tutti i pannelli a True//
             foreach (Control c in this.Controls)
             {
                 if (c is Panel)
@@ -191,6 +210,8 @@ namespace GiocoDiCarte
                         null, c, new object[] { true });
                 }
             }
+
+            //Timer che chiama la funzione di ridisegno ad ogni tot tick//s
             Timer fps = new Timer();
             fps.Interval = 64;
             fps.Tick += ridisegno;
@@ -229,6 +250,10 @@ namespace GiocoDiCarte
                     levelPanel.Invalidate(pulsantiLivello[i].r);
                 }
             }
+            else if (inGameover)
+            {
+                gameoverPanel.Invalidate(gameoverR);
+            }
 
         }
 
@@ -242,7 +267,8 @@ namespace GiocoDiCarte
             
             e.Graphics.DrawImage(Esci.hover ? esciHover : esci, Esci.r);
 
-            e.Graphics.DrawImage(titolo, Titolo.r);
+            titoloR = new Rectangle(this.ClientSize.Width / 2 - titolo.Width / 2, this.ClientSize.Height / 2 - titolo.Height * 2, titolo.Width, titolo.Height);
+            e.Graphics.DrawImage(titolo, titoloR);
 
             
         }
@@ -339,12 +365,21 @@ namespace GiocoDiCarte
                         if(livelliSbloccati >= livelloSelezionato)
                         {
                             nmosse = (livelloSelezionato + 1)*2+5;
-                            label3.Text = nmosse.ToString();
+                            label_nMosse.Text = nmosse.ToString();
+
+                            labelTempo.Font = new Font(kiwiSoda.FontFamily, 50, FontStyle.Regular);
+                            labelTempo.ForeColor = Color.White;
+                            labelMosseTxt.Font = kiwiSoda;
+                            labelMosseTxt.ForeColor = Color.White;
+                            label_nMosse.Font = kiwiSoda;
+                            label_nMosse.ForeColor = Color.White;
+
+
                             generaCarte(livelloSelezionato);
                             gamePanel.Show();
                             levelPanel.Hide();
+
                             secondiTimer = 150;
-                            
                             timergioco.Interval = 1000;
                             timergioco.Tick += timer;
                             timergioco.Start();
@@ -372,7 +407,8 @@ namespace GiocoDiCarte
             {
                 e.Graphics.DrawImage(pulsantiLivello[i].sprite, pulsantiLivello[i].r);
 
-                e.Graphics.DrawImage(livelli, Livelli.r);
+                livelliR = new Rectangle(this.ClientSize.Width / 2 - livelli.Width / 2, this.ClientSize.Height / 2 - livelli.Height * 3, livelli.Width, livelli.Height);
+                e.Graphics.DrawImage(livelli, livelliR);
             }
         }
 
@@ -610,7 +646,7 @@ namespace GiocoDiCarte
                         pausaClick = true;
                         nmosse--;
                         
-                        label3.Text = nmosse.ToString();
+                        label_nMosse.Text = nmosse.ToString();
                         
                         if (nmosse == 0)
                         {
@@ -686,21 +722,35 @@ namespace GiocoDiCarte
             }
 
         }
-
-        
-
-
-
-
-        //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
-
-        private void button1_Click(object sender, EventArgs e)
+        private void gameoverPanel_Paint(object sender, PaintEventArgs e)
         {
-            inMenu = true;
-            gameoverPanel.Hide();
-            menuPanel.Show();
+            int centerW = this.Width/2;
+            int centerH = this.Height/2;
+
+            gameoverR = new Rectangle(centerW - gameover.Width / 2, centerH - gameover.Height * 2, gameover.Width, gameover.Height);
+
+            e.Graphics.DrawImage(gameover, gameoverR);
+
+            e.Graphics.DrawImage(tornaAlMenu, tornaMenuPulsante.r);
         }
 
+
+
+//------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
+
+        private void gameoverPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (inGameover)
+            {
+                if (tornaMenuPulsante.r.Contains(e.Location))
+                {
+                    inGameover = false;
+                    inMenu = true;
+                    gameoverPanel.Hide();
+                    menuPanel.Show();
+                }
+            }
+        }
     }
 
 
