@@ -13,6 +13,7 @@ using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 //-----------------------------------------------------------------------------------//
 namespace GiocoDiCarte
@@ -108,7 +109,9 @@ namespace GiocoDiCarte
         private int condVittoria = 0;
         private int livelliSbloccati = 9;
         private int livelloSelezionato;
-        private int nmosse; 
+        private int nmosse;
+        private int secondiTimer = 150;
+        Timer timergioco = new Timer();
         //Variabili booleane per altro
         private bool pausaClick = false;
 
@@ -188,10 +191,10 @@ namespace GiocoDiCarte
                         null, c, new object[] { true });
                 }
             }
-            Timer timer = new Timer();
-            timer.Interval = 64;
-            timer.Tick += ridisegno;
-            timer.Start();
+            Timer fps = new Timer();
+            fps.Interval = 64;
+            fps.Tick += ridisegno;
+            fps.Start();
 
         }
 
@@ -335,11 +338,17 @@ namespace GiocoDiCarte
                         livelloSelezionato = i+1; 
                         if(livelliSbloccati >= livelloSelezionato)
                         {
-                            nmosse = (livelloSelezionato + 1)*2;
+                            nmosse = (livelloSelezionato + 1)*2+5;
                             label3.Text = nmosse.ToString();
                             generaCarte(livelloSelezionato);
                             gamePanel.Show();
                             levelPanel.Hide();
+                            secondiTimer = 150;
+                            
+                            timergioco.Interval = 1000;
+                            timergioco.Tick += timer;
+                            timergioco.Start();
+                            
                         }
                         else
                         {
@@ -608,6 +617,7 @@ namespace GiocoDiCarte
                             gameoverPanel.Show();
                             gameoverPanel.BringToFront();
                             gamePanel.Hide();
+                            timergioco.Stop();
                         }
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
@@ -623,7 +633,9 @@ namespace GiocoDiCarte
                                 {
                                     livelliSbloccati += 1;
                                 }
-
+                                timergioco.Stop();
+                                labelMosse.Text = nmosse.ToString();
+                                labelTempoRimasto.Text = secondiTimer.ToString();
                                 victoryPanel.Show();
                                 victoryPanel.BringToFront();
                                 this.Refresh();
@@ -660,17 +672,34 @@ namespace GiocoDiCarte
                 pulsantiLivello[i].sprite = spriteBloccata;
             }**/
         }
-
-        private void label2_Click(object sender, EventArgs e)
+        
+        private void timer(object sender, EventArgs e)
         {
+            secondiTimer--;
+            labelTempo.Text=secondiTimer.ToString();
+            if (secondiTimer < 0)
+            {
+                timergioco.Stop();
+                gamePanel.Hide();
+                gameoverPanel.Show();
+                gameoverPanel.BringToFront();   
+            }
 
         }
+
+        
+
 
 
 
         //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            inMenu = true;
+            gameoverPanel.Hide();
+            menuPanel.Show();
+        }
 
     }
 
