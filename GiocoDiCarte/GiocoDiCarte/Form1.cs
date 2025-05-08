@@ -69,16 +69,16 @@ namespace GiocoDiCarte
 
         //Le Bitmap//
         private Bitmap retroCarta = new Bitmap("Sprite/carte/retroCarta.png");
-        private Bitmap cartaArancio = new Bitmap("Sprite/carte/cartaArancio.png");
-        private Bitmap cartaRosso = new Bitmap("Sprite/carte/cartaRosso.png");
-        private Bitmap cartaBlu = new Bitmap("Sprite/carte/cartaBlu.png");
-        private Bitmap cartaVerde = new Bitmap("Sprite/carte/cartaVerde.png");
-        private Bitmap cartaGiallo = new Bitmap("Sprite/carte/cartaGiallo.png");
-        private Bitmap cartaTurchese = new Bitmap("Sprite/carte/cartaTurchese.png");
-        private Bitmap cartaViola = new Bitmap("Sprite/carte/cartaViola.png");
-        private Bitmap cartaFuoco = new Bitmap("Sprite/carte/cartaFuoco.png");
-        private Bitmap cartaAcqua = new Bitmap("Sprite/carte/cartaAcqua.png");
-        private Bitmap cartaSole = new Bitmap("Sprite/carte/cartaSole.png");
+        private Bitmap cartaArancio = new Bitmap("Sprite/carte/arancia.png");
+        private Bitmap cartaRosso = new Bitmap("Sprite/carte/pizza.png");
+        private Bitmap cartaBlu = new Bitmap("Sprite/carte/ghiaccio.png");
+        private Bitmap cartaVerde = new Bitmap("Sprite/carte/foglia.png");
+        private Bitmap cartaGiallo = new Bitmap("Sprite/carte/sole.png");
+        private Bitmap cartaTurchese = new Bitmap("Sprite/carte/tamburo.png");
+        private Bitmap cartaViola = new Bitmap("Sprite/carte/saturno.png");
+        private Bitmap cartaFuoco = new Bitmap("Sprite/carte/calcio.png");
+        private Bitmap cartaAcqua = new Bitmap("Sprite/carte/orso.png");
+        private Bitmap cartaSole = new Bitmap("Sprite/carte/balena.png");
 
         private Bitmap titolo = new Bitmap("Sprite/titolo.png");
         private Bitmap gioca = new Bitmap("Sprite/Pulsanti/gioca.png");
@@ -335,7 +335,8 @@ namespace GiocoDiCarte
                         livelloSelezionato = i+1; 
                         if(livelliSbloccati >= livelloSelezionato)
                         {
-                            nmosse = livelloSelezionato + 1;
+                            nmosse = (livelloSelezionato + 1)*2;
+                            label3.Text = nmosse.ToString();
                             generaCarte(livelloSelezionato);
                             gamePanel.Show();
                             levelPanel.Hide();
@@ -665,9 +666,11 @@ namespace GiocoDiCarte
 
         }
 
+
+
         //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
-
+        
 
     }
 
