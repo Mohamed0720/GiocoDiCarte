@@ -44,7 +44,7 @@
             // menuPanel
             // 
             this.menuPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuPanel.Location = new System.Drawing.Point(379, 8);
+            this.menuPanel.Location = new System.Drawing.Point(96, 118);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(800, 450);
             this.menuPanel.TabIndex = 3;
@@ -58,7 +58,7 @@
             this.victoryPanel.AutoSize = true;
             this.victoryPanel.Controls.Add(this.tornaMenu);
             this.victoryPanel.Controls.Add(this.titoloVittoria);
-            this.victoryPanel.Location = new System.Drawing.Point(42, 139);
+            this.victoryPanel.Location = new System.Drawing.Point(12, 232);
             this.victoryPanel.Name = "victoryPanel";
             this.victoryPanel.Size = new System.Drawing.Size(1227, 450);
             this.victoryPanel.TabIndex = 1;
@@ -91,7 +91,7 @@
             this.gamePanel.AutoSize = true;
             this.gamePanel.Controls.Add(this.label3);
             this.gamePanel.Controls.Add(this.Indietro);
-            this.gamePanel.Location = new System.Drawing.Point(87, 32);
+            this.gamePanel.Location = new System.Drawing.Point(68, 142);
             this.gamePanel.Name = "gamePanel";
             this.gamePanel.Size = new System.Drawing.Size(800, 514);
             this.gamePanel.TabIndex = 3;
@@ -122,7 +122,7 @@
             // 
             this.levelPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.levelPanel.AutoSize = true;
-            this.levelPanel.Location = new System.Drawing.Point(59, 76);
+            this.levelPanel.Location = new System.Drawing.Point(35, 175);
             this.levelPanel.Name = "levelPanel";
             this.levelPanel.Size = new System.Drawing.Size(799, 413);
             this.levelPanel.TabIndex = 3;
