@@ -34,13 +34,12 @@
             this.labelTempoRimasto = new System.Windows.Forms.Label();
             this.labelMosse = new System.Windows.Forms.Label();
             this.gamePanel = new System.Windows.Forms.Panel();
-            this.labelTornaMenu = new System.Windows.Forms.Label();
+            this.impostazPanel = new System.Windows.Forms.Panel();
+            this.riprendi = new System.Windows.Forms.Label();
             this.labelTempo = new System.Windows.Forms.Label();
             this.label_nMosse = new System.Windows.Forms.Label();
             this.levelPanel = new System.Windows.Forms.Panel();
             this.gameoverPanel = new System.Windows.Forms.Panel();
-            this.impostazPanel = new System.Windows.Forms.Panel();
-            this.riprendi = new System.Windows.Forms.Label();
             this.victoryPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
             this.impostazPanel.SuspendLayout();
@@ -115,16 +114,26 @@
             this.gamePanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseClick);
             this.gamePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGame_MouseMove);
             // 
-            // labelTornaMenu
+            // impostazPanel
             // 
-            this.labelTornaMenu.AutoSize = true;
-            this.labelTornaMenu.BackColor = System.Drawing.Color.Transparent;
-            this.labelTornaMenu.Location = new System.Drawing.Point(76, 89);
-            this.labelTornaMenu.Name = "labelTornaMenu";
-            this.labelTornaMenu.Size = new System.Drawing.Size(75, 13);
-            this.labelTornaMenu.TabIndex = 5;
-            this.labelTornaMenu.Text = "Torna al menu";
-            this.labelTornaMenu.Click += new System.EventHandler(this.labelTornaMenu_Click);
+            this.impostazPanel.Controls.Add(this.riprendi);
+            this.impostazPanel.Location = new System.Drawing.Point(298, 138);
+            this.impostazPanel.Name = "impostazPanel";
+            this.impostazPanel.Size = new System.Drawing.Size(235, 131);
+            this.impostazPanel.TabIndex = 6;
+            this.impostazPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.impostazPanel_Paint);
+            this.impostazPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.impostazPanel_MouseClick);
+            // 
+            // riprendi
+            // 
+            this.riprendi.AutoSize = true;
+            this.riprendi.BackColor = System.Drawing.Color.Transparent;
+            this.riprendi.Location = new System.Drawing.Point(91, 36);
+            this.riprendi.Name = "riprendi";
+            this.riprendi.Size = new System.Drawing.Size(46, 13);
+            this.riprendi.TabIndex = 6;
+            this.riprendi.Text = "Riprendi";
+            this.riprendi.Click += new System.EventHandler(this.riprendi_Click);
             // 
             // labelTempo
             // 
@@ -167,26 +176,6 @@
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
             this.gameoverPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseClick);
             // 
-            // impostazPanel
-            // 
-            this.impostazPanel.Controls.Add(this.riprendi);
-            this.impostazPanel.Controls.Add(this.labelTornaMenu);
-            this.impostazPanel.Location = new System.Drawing.Point(298, 138);
-            this.impostazPanel.Name = "impostazPanel";
-            this.impostazPanel.Size = new System.Drawing.Size(235, 131);
-            this.impostazPanel.TabIndex = 6;
-            // 
-            // riprendi
-            // 
-            this.riprendi.AutoSize = true;
-            this.riprendi.BackColor = System.Drawing.Color.Transparent;
-            this.riprendi.Location = new System.Drawing.Point(91, 36);
-            this.riprendi.Name = "riprendi";
-            this.riprendi.Size = new System.Drawing.Size(46, 13);
-            this.riprendi.TabIndex = 6;
-            this.riprendi.Text = "Riprendi";
-            this.riprendi.Click += new System.EventHandler(this.riprendi_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -222,7 +211,6 @@
         private System.Windows.Forms.Label labelTempo;
         private System.Windows.Forms.Label labelMosse;
         private System.Windows.Forms.Label labelTempoRimasto;
-        private System.Windows.Forms.Label labelTornaMenu;
         private System.Windows.Forms.Label labelPunteggio;
         private System.Windows.Forms.Panel impostazPanel;
         private System.Windows.Forms.Label riprendi;

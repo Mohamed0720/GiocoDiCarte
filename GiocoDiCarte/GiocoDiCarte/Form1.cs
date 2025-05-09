@@ -97,6 +97,7 @@ namespace GiocoDiCarte
         private Bitmap riquadro = new Bitmap("Sprite/riquadro.png");
         private Bitmap livelloCompletato = new Bitmap("Sprite/livelloCompletato.png");
         private Bitmap impostazioni = new Bitmap("Sprite/impostazioni.png");
+        private Bitmap livelloBloccato = new Bitmap("Sprite/livelli/livelloBloccato.png");
 
         Rectangle titoloR;
         Rectangle livelliR;
@@ -110,6 +111,7 @@ namespace GiocoDiCarte
         //Oggetti tornaMenu//
         private Pulsante tornaMenuGameOver;
         private Pulsante tornaMenuVittoria;
+        private Pulsante tornaMenuImpostaz;
         //Pulsante impostazioni//
         private Pulsante Impostazioni;
 
@@ -123,7 +125,7 @@ namespace GiocoDiCarte
         private Carta cartaGirata;
         //Variabili per gestire i livelli e la condizione di vittoria//
         private int condVittoria = 0;
-        private int livelliSbloccati = 9;
+        private int livelliSbloccati = 1;
         private int livelloSelezionato;
         private int nmosse;
         private int secondiTimer;
@@ -138,9 +140,13 @@ namespace GiocoDiCarte
 
 
 
-
-
         //--------------------------------------#/GENERALI\#-----------------------------------------\\
+
+        //Fade in//
+        private void fadeOut()
+        {
+            this.Opacity -= 0.5;
+        }
 
         //Centra i Pannelli//--------------------------------------------------------//
         private void centraPannello(Panel p)
@@ -209,10 +215,21 @@ namespace GiocoDiCarte
             r = new Rectangle(tornaMenuVX, tornaMenuVY, tornaAlMenu.Width, tornaAlMenu.Height);
             tornaMenuVittoria = new Pulsante(r);
 
+            int tornaMenuImpX = impostazPanel.Width/2 - tornaAlMenu.Width/6;
+            int tornaMenuImpY = impostazPanel.Height / 2 + tornaAlMenu.Height/3*2;
+            r = new Rectangle(tornaMenuImpX, tornaMenuImpY, tornaAlMenu.Width, tornaAlMenu.Height);
+            tornaMenuImpostaz = new Pulsante(r);
+
             int impostazioniX = 50;
             int impostazioniY = this.ClientSize.Height - 100;
             r = new Rectangle(impostazioniX, impostazioniY, impostazioni.Width, impostazioni.Height);
             Impostazioni = new Pulsante(r);
+
+            //pannello di impostazioni//
+            impostazPanel.Width = riquadro.Width;
+            impostazPanel.Height = riquadro.Height;
+            centraPannello(impostazPanel);
+            impostazPanel.BackgroundImage = riquadro;
 
             //Aggiunge le bitmap delle carte alla lista sprites//
             sprites.AddRange(new List<Bitmap>{ cartaArancio, cartaRosso, cartaBlu, cartaVerde, cartaGiallo, cartaTurchese, cartaViola, cartaFuoco, cartaAcqua, cartaSole});
@@ -266,6 +283,11 @@ namespace GiocoDiCarte
                 for (int i = 0; i < (livelloSelezionato + 1) * 2; i++)
                 {
                     gamePanel.Invalidate(carte[i].rect);
+                }
+
+                if (inImpostaz)
+                {
+                    impostazPanel.Invalidate(tornaMenuImpostaz.r);
                 }
             }
             else if (inLevels) {
@@ -434,10 +456,6 @@ namespace GiocoDiCarte
                             timergioco.Start();
 
                         }
-                        else
-                        {
-                            MessageBox.Show("Livello non ancora sbloccato!");
-                        }
                     }
                 }
             }
@@ -454,7 +472,15 @@ namespace GiocoDiCarte
         {
             for (int i = 0; i < 9; i++)
             {
-                e.Graphics.DrawImage(pulsantiLivello[i].sprite, pulsantiLivello[i].r);
+                if(i+1 <= livelliSbloccati)
+                {
+                    e.Graphics.DrawImage(pulsantiLivello[i].sprite, pulsantiLivello[i].r);
+                }
+                else
+                {
+                    e.Graphics.DrawImage(livelloBloccato, pulsantiLivello[i].r);
+                }
+
 
                 livelliR = new Rectangle(this.ClientSize.Width / 2 - livelli.Width / 2, this.ClientSize.Height / 2 - livelli.Height * 3, livelli.Width, livelli.Height);
                 e.Graphics.DrawImage(livelli, livelliR);
@@ -634,14 +660,7 @@ namespace GiocoDiCarte
         //Tasto Torna al Menu Principale//-------------------------------------------//
         private void labelTornaMenu_Click(object sender, EventArgs e)
         {
-            timergioco.Stop();
-            gamePanel.Hide();
-            menuPanel.Show();
-            inGame = false;
-            condVittoria = 0;
-            carte.Clear();
-            menuPanel.Invalidate();
-            inMenu = true;
+            
             
         }
 
@@ -782,28 +801,22 @@ namespace GiocoDiCarte
                 }
             }
 
-            if (Impostazioni.r.Contains(e.Location))
-            {
-                inGame = false;
-                inImpostaz = true;
-                timergioco.Stop();
-                impostazPanel.Show();
-                impostazPanel.Width = riquadro.Width;
-                impostazPanel.Height = riquadro.Height;
-                centraPannello(impostazPanel);
-                impostazPanel.BackgroundImage = riquadro;
+            if (!inImpostaz && !primaCarta) {
+                if (Impostazioni.r.Contains(e.Location))
+                {
+                    inImpostaz = true;
+                    timergioco.Stop();
+                    impostazPanel.Show();
 
-                riprendi.Text = "Riprendi";
-                riprendi.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
-                riprendi.Location = new Point(impostazPanel.Width/2 - riprendi.Width/2, impostazPanel.Height/2 - riprendi.Height/2*3 );
-                riprendi.ForeColor = Color.Black;
+                    riprendi.Text = "Riprendi";
+                    riprendi.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
+                    riprendi.Location = new Point(impostazPanel.Width / 2 - riprendi.Width / 2, impostazPanel.Height / 2 - riprendi.Height / 2 * 3);
+                    riprendi.ForeColor = Color.Black;
 
-                labelTornaMenu.Text = "Torna Al Menu";
-                labelTornaMenu.Location = new Point(impostazPanel.Width / 2 - labelTornaMenu.Width*2, impostazPanel.Height / 2 + labelTornaMenu.Height / 2*3);
-                labelTornaMenu.Font = new Font(kiwiSoda.FontFamily, 40, FontStyle.Regular);
-                labelTornaMenu.ForeColor = Color.Black;
 
+                }
             }
+            
 
         }
 
@@ -814,11 +827,6 @@ namespace GiocoDiCarte
             victoryPanel.Hide();
             carte.Clear();
             inMenu = true;
-
-            /**for (int i = 0; i < livelliSbloccati; i++)
-            {
-                pulsantiLivello[i].sprite = spriteBloccata;
-            }**/
         }
         
         //sconfitta per il tempo
@@ -837,11 +845,34 @@ namespace GiocoDiCarte
 
         }
 
+        //Disegno del pannello impostazioni//
+        private void impostazPanel_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawImage(tornaAlMenu, tornaMenuImpostaz.r);
+        }
+
+        //Rilevamento click nel pannello impostazioni//
+        private void impostazPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (!inImpostaz)
+                return;
+
+            if (tornaMenuImpostaz.r.Contains(e.Location))
+            {
+                timergioco.Stop();
+                gamePanel.Hide();
+                menuPanel.Show();
+                inGame = false;
+                inImpostaz = false;
+                condVittoria = 0;
+                carte.Clear();
+                menuPanel.Invalidate();
+                inMenu = true;
+            }
+        }
 
 
-
-
-//------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
+        //------------------------------------------#/VITTORIA/GAMEOVER\#---------------------------------------\\
 
         //Ridisegno del pannello di GameOver//
         private void gameoverPanel_Paint(object sender, PaintEventArgs e)
