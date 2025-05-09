@@ -897,7 +897,7 @@ namespace GiocoDiCarte
 
             if (tornaMenuVittoria.r.Contains(e.Location))
             {
-                gameoverPanel.Hide();
+                victoryPanel.Hide();
                 menuPanel.Show();
                 inGameover = false;
                 inMenu = true;
