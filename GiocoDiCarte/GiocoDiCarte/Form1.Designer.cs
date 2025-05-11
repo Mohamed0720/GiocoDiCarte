@@ -69,6 +69,7 @@
             this.victoryPanel.TabIndex = 1;
             this.victoryPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.victoryPanel_Paint);
             this.victoryPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.victoryPanel_MouseClick);
+            this.victoryPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.victoryPanel_MouseMove);
             // 
             // labelPunteggio
             // 
@@ -123,6 +124,7 @@
             this.impostazPanel.TabIndex = 6;
             this.impostazPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.impostazPanel_Paint);
             this.impostazPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.impostazPanel_MouseClick);
+            this.impostazPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.impostazPanel_MouseMove);
             // 
             // riprendi
             // 
@@ -175,6 +177,7 @@
             this.gameoverPanel.TabIndex = 5;
             this.gameoverPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gameoverPanel_Paint);
             this.gameoverPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseClick);
+            this.gameoverPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gameoverPanel_MouseMove);
             // 
             // Form1
             // 
