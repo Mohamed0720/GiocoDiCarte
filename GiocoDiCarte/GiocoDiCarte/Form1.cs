@@ -138,11 +138,6 @@ namespace GiocoDiCarte
 
         //--------------------------------------#/GENERALI\#-----------------------------------------\\
 
-        //Fade in//
-        private void fadeOut()
-        {
-            this.Opacity -= 0.5;
-        }
 
         //Centra i Pannelli//--------------------------------------------------------//
         private void centraPannello(Panel p)
@@ -157,6 +152,7 @@ namespace GiocoDiCarte
         {                  
             //Inizializza il form//
             InitializeComponent();
+
 
             //Centra i pannelli//
             centraPannello(menuPanel);
@@ -178,8 +174,10 @@ namespace GiocoDiCarte
             {
                 if(ctrl is Panel panel)
                 {
-                    panel.BackgroundImage = sfondo;
-                    panel.BackgroundImageLayout = ImageLayout.Tile;
+                    if(panel.Name != "fadePanel") {
+                        panel.BackgroundImage = sfondo;
+                        panel.BackgroundImageLayout = ImageLayout.Tile;
+                    }
                 }
             }
 
@@ -189,6 +187,10 @@ namespace GiocoDiCarte
             //Aggiunge il font//
             ff1.AddFontFile("Font/KiwiSoda.ttf");
             kiwiSoda = new Font(ff1.Families[0], 16, FontStyle.Regular);
+
+            //Aggiunge il cursore//
+            Cursor cursore = new Cursor("Sprite/cursore.cur");
+            this.Cursor = cursore;
 
             //Imposta la dimensione e la posizione dei diversi pulsanti//
             int giocaX = this.ClientSize.Width / 2 - gioca.Width / 2;
@@ -251,7 +253,7 @@ namespace GiocoDiCarte
             fps.Interval = 64;
             fps.Tick += ridisegno;
             fps.Start();
-            
+
         }
 
 
@@ -285,6 +287,12 @@ namespace GiocoDiCarte
                     }
                 }
 
+                if (Impostazioni.changed)
+                {
+                    gamePanel.Invalidate(Impostazioni.r);
+                    Impostazioni.changed = false;
+                }
+
                 if (inImpostaz)
                 {
                     if (tornaMenuImpostaz.changed)
@@ -306,8 +314,6 @@ namespace GiocoDiCarte
             }
             else if (inGameover)
             {
-                gameoverPanel.Invalidate(gameoverR);
-
                 if(tornaMenuGameOver.changed)
                 { 
                     gameoverPanel.Invalidate(tornaMenuGameOver.r);
@@ -334,23 +340,19 @@ namespace GiocoDiCarte
             if (Gioca.hover)
             {
                 e.Graphics.DrawImage(Gioca.hoveredSprite, Gioca.r);
-                this.Cursor = Cursors.Hand;
             }
             else
             {
                 e.Graphics.DrawImage(gioca, Gioca.r);
-                this.Cursor = Cursors.Default;
             }
 
             if (Esci.hover)
             {
                 e.Graphics.DrawImage(Esci.hoveredSprite, Esci.r);
-                this.Cursor = Cursors.Hand;
             }
             else
             { 
                 e.Graphics.DrawImage(esci, Esci.r);
-                this.Cursor = Cursors.Default;
             }
             
 
@@ -473,6 +475,7 @@ namespace GiocoDiCarte
                             timergioco.Tick += timer;
                             timergioco.Start();
 
+                            inLevels = false;
                         }
                     }
                 }
@@ -505,12 +508,10 @@ namespace GiocoDiCarte
                     if (pulsantiLivello[i].hover)
                     {
                         e.Graphics.DrawImage(pulsantiLivello[i].hoveredSprite, pulsantiLivello[i].r);
-                        this.Cursor = Cursors.Hand;
                     }
                     else
                     {
                         e.Graphics.DrawImage(pulsantiLivello[i].sprite, pulsantiLivello[i].r);
-                        this.Cursor = Cursors.Default;
                     }
                     
                 }
@@ -628,16 +629,16 @@ namespace GiocoDiCarte
             else if (livello + 1 == 10)
             {
                 righe = 4;
-                int colonne = 7;
+                int colonne = 5;
 
                 int grigliaWidth = ((larghezzaCarta * colonne) + (padding * (colonne - 1)));
                 int grigliaHeight = (altezzaCarta * righe + padding * righe);
 
                 for (int i = 0; i < righe; i++)
                 {
-                    for (int j = 0; j < (colonne - i * 2); j++)
+                    for (int j = 0; j < colonne; j++)
                     {
-                        int startX = (screenWidth - grigliaWidth) / 2 + i * (larghezzaCarta + padding);
+                        int startX = (screenWidth - grigliaWidth) / 2;
                         int startY = (screenHeight - grigliaHeight) / 2;
 
                         int x = startX + j * (larghezzaCarta + padding);
@@ -700,7 +701,7 @@ namespace GiocoDiCarte
         {
             if (inGame)
             {
-                for(int i = 0; i < (livelloSelezionato +1)*2; i++)
+                for(int i = 0; i < (livelloSelezionato + 1)*2; i++)
                 {
                     if (carte[i].girato)
                     {
@@ -746,6 +747,12 @@ namespace GiocoDiCarte
                         carte[i].hover = carte[i].rect.Contains(e.Location);
                     }
                 }
+
+                if(Impostazioni.r.Contains(e.Location) != Impostazioni.hover)
+                {
+                    Impostazioni.changed = true;
+                    Impostazioni.hover = Impostazioni.r.Contains(e.Location);
+                }
             }
 
 
@@ -767,25 +774,19 @@ namespace GiocoDiCarte
                     if (!primaCarta)
                     {
                         carte[i].girato = true;
+                        carte[i].changed = true;
                         primaCarta = true;
                         cartaGirata = carte[i];
-                       
                     }
                     else
                     {
                         carte[i].girato = true;
+                        carte[i].changed = true;
                         pausaClick = true;
                         nmosse--;
                         label_nMosse.Text = "mosse: "+nmosse.ToString();
                         
-                        if (nmosse == 0)
-                        {
-                            inGameover = true;
-                            gameoverPanel.Show();
-                            gameoverPanel.BringToFront();
-                            gamePanel.Hide();
-                            timergioco.Stop();
-                        }
+                        
                         //Se le carte sono di colore diverso le rigira
                         if (carte[i].colore == cartaGirata.colore)
                         {
@@ -835,8 +836,19 @@ namespace GiocoDiCarte
                         else
                         {
                             await Task.Delay(500);
+                            carte[i].changed = true;
+                            cartaGirata.changed = true;
                             carte[i].girato = false;
                             cartaGirata.girato = false;
+                        }
+
+                        if (nmosse == 0)
+                        {
+                            inGameover = true;
+                            gameoverPanel.Show();
+                            gameoverPanel.BringToFront();
+                            gamePanel.Hide();
+                            timergioco.Stop();
                         }
 
                         pausaClick = false;
@@ -892,12 +904,10 @@ namespace GiocoDiCarte
             if (tornaMenuImpostaz.hover)
             {
                 e.Graphics.DrawImage(tornaMenuImpostaz.hoveredSprite, tornaMenuImpostaz.r);
-                this.Cursor = Cursors.Hand;
             }
             else
             {
                 e.Graphics.DrawImage(tornaAlMenu, tornaMenuImpostaz.r);
-                this.Cursor = Cursors.Default;
             } 
         }
 
@@ -940,6 +950,9 @@ namespace GiocoDiCarte
         //Ridisegno del pannello di GameOver//
         private void gameoverPanel_Paint(object sender, PaintEventArgs e)
         {
+            if (!inGameover)
+                return;
+
             int centerW = this.Width / 2;
             int centerH = this.Height / 2;
 
@@ -947,7 +960,15 @@ namespace GiocoDiCarte
 
             e.Graphics.DrawImage(gameover, gameoverR);
 
-            e.Graphics.DrawImage(tornaAlMenu, tornaMenuGameOver.r);
+            if (tornaMenuGameOver.hover)
+            {
+                e.Graphics.DrawImage(tornaMenuGameOver.hoveredSprite, tornaMenuGameOver.r);
+            }
+            else
+            {
+                e.Graphics.DrawImage(tornaAlMenu, tornaMenuGameOver.r);
+            }
+            
         }
 
         //Risposta al click del mouse nel pannello di Game Over//
@@ -983,6 +1004,9 @@ namespace GiocoDiCarte
         //Ridisegno del pannello di vittoria//
         private void victoryPanel_Paint(object sender, PaintEventArgs e)
         {
+            if (!inVictory)
+                return;
+
             int centerW = this.Width / 2;
             int centerH = this.Height / 2;
 
@@ -991,8 +1015,8 @@ namespace GiocoDiCarte
             e.Graphics.DrawImage(riquadro, new Rectangle(centerW - riqW / 2 - 10, centerH - riqH / 5 * 2, riqW, riqH));
 
             int livW = livelloCompletato.Width;
-            int LivH = livelloCompletato.Height;
-            e.Graphics.DrawImage(livelloCompletato, new Rectangle(centerW - livW/2, centerH - LivH/2*3, livW, LivH));
+            int livH = livelloCompletato.Height;
+            e.Graphics.DrawImage(livelloCompletato, new Rectangle(centerW - livW/2, centerH - livH / 2*3, livW, livH));
 
             if (tornaMenuVittoria.hover)
             {

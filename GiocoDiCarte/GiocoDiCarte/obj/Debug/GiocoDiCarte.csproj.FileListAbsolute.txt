@@ -58,3 +58,7 @@ C:\Users\Studente\Documents\Mohamed\Github\GiocoDiCarte\GiocoDiCarte\GiocoDiCart
 C:\Users\Studente\Documents\Mohamed\Github\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.csproj.CoreCompileInputs.cache
 C:\Users\Studente\Documents\Mohamed\Github\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.exe
 C:\Users\Studente\Documents\Mohamed\Github\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.pdb
+C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\bin\Debug\GiocoDiCarte.exe.manifest
+C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\bin\Debug\GiocoDiCarte.application
+C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.exe.manifest
+C:\Users\tacos\Documents\GitHub\GiocoDiCarte\GiocoDiCarte\GiocoDiCarte\obj\Debug\GiocoDiCarte.application
