@@ -859,7 +859,7 @@ namespace GiocoDiCarte
                 }
             }
 
-            if (!inImpostaz && !primaCarta) {
+            if (!inImpostaz) {
                 if (Impostazioni.r.Contains(e.Location))
                 {
                     inImpostaz = true;
